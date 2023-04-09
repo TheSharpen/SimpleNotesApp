@@ -26,7 +26,13 @@ fun NoteScreen(
                     contentDescription = "Add note")
 
         }
-    }) {padding -> LazyColumn(
+    }) {padding ->
+        if(state.isAddingNote) {
+            AddNoteDialog(state = state, onEvent = onEvent  )
+        }
+
+
+        LazyColumn(
             contentPadding = padding,
             modifier = Modifier.fillMaxSize(),
             verticalArrangement = Arrangement.spacedBy(16.dp)

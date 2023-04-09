@@ -15,7 +15,7 @@ import androidx.compose.ui.unit.dp
 
 
 @Composable
-fun AddContactDialog(
+fun AddNoteDialog(
     state: NoteState,
     onEvent: (NoteEvent) -> Unit,
     modifier: Modifier = Modifier
