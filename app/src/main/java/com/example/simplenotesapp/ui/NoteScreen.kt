@@ -57,7 +57,13 @@ fun NoteScreen(
                         .fillMaxWidth()
                         .padding(horizontal = 16.dp, vertical = 4.dp)
                         .clickable(onClick = {
-                            //nav with args
+                            navController.navigate(
+                                    "${Routes.ADD_NOTE_DETAIL_SCREEN}/${note.id}/${note.title}/${note.content}")
+
+
+
+                                    // navArguemnts added - add IF functions to adjust AddNoteDetailScreen layout
+                            // if note = null, hints + add new, if note.id is not null (is different from -1?) show note.
                         }),
 
             ) {
