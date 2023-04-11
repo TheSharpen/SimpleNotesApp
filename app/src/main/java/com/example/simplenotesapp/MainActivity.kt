@@ -62,7 +62,7 @@ class MainActivity : ComponentActivity() {
                         NoteScreen(state = state, onEvent = viewModel::onEvent, navController = navController)
                     }
                     composable(Routes.ADD_NOTE_DETAIL_SCREEN) {
-                        AddNoteDetailScreen(state = state, onEvent = viewModel::onEvent)
+                        AddNoteDetailScreen(state = state, onEvent = viewModel::onEvent, navController = navController)
                     }
                 }
 

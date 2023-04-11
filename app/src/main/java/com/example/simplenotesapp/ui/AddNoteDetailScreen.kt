@@ -11,11 +11,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 
 @Composable
 fun AddNoteDetailScreen(
     state: NoteState,
     onEvent: (NoteEvent) -> Unit,
+    navController: NavController,
     modifier: Modifier = Modifier
 ) {
     Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
@@ -30,6 +32,7 @@ fun AddNoteDetailScreen(
         Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.CenterEnd) {
             Button(onClick =  {
                 onEvent(NoteEvent.SaveNote)
+                navController.popBackStack()
             }) {
                 Text(text = "Save")
 
