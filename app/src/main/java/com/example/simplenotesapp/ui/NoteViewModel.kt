@@ -8,11 +8,12 @@ import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
 class NoteViewModel(
-    private val dao: NoteDao
-): ViewModel() {
+    private val dao: NoteDao,
+) : ViewModel() {
 
 
-    private val _notes = dao.getAllNotes().stateIn(viewModelScope, SharingStarted.WhileSubscribed(), emptyList())
+    private val _notes =
+        dao.getAllNotes().stateIn(viewModelScope, SharingStarted.WhileSubscribed(), emptyList())
 
     private val _state = MutableStateFlow(NoteState())
     val state = combine(_state, _notes) { state, notes ->
@@ -23,7 +24,7 @@ class NoteViewModel(
 
 
     fun onEvent(event: NoteEvent) {
-        when(event) {
+        when (event) {
             is NoteEvent.DeleteNote -> {
                 viewModelScope.launch {
                     dao.deleteNote(event.note)
@@ -39,43 +40,56 @@ class NoteViewModel(
             NoteEvent.SaveNote -> {
                 val title = state.value.title
                 val content = state.value.content
+                val id = state.value.id
 
-                if(title.isBlank() || content.isBlank()) {
+                if (title.isBlank() || content.isBlank()) {
                     return
                 }
 
-                val note = Note(
-                        title = title,
-                        content = content
-                )
+                val note = if (id == 0) {
+                    Note(
+                            title = title, content = content
+                    )
+                } else {
+                    Note(
+                            title = title, content = content, id = id
+                    )
+                }
+
+
 
                 viewModelScope.launch {
                     dao.upsertNote(note)
                 }
 
-                _state.update { it.copy(
-                        isAddingNote = false,
-                        title = "",
-                        content = ""
-                ) }
+                _state.update {
+                    it.copy(
+                            isAddingNote = false, title = "", content = ""
+                    )
+                }
             }
-
 
 
             is NoteEvent.SetContent -> {
-                _state.update { it.copy(
-                        content = event.content
-                ) }
+                _state.update {
+                    it.copy(
+                            content = event.content
+                    )
+                }
             }
             is NoteEvent.SetTitle -> {
-                _state.update { it.copy(
-                        title = event.title
-                ) }
+                _state.update {
+                    it.copy(
+                            title = event.title
+                    )
+                }
             }
             NoteEvent.ShowDialog -> {
-                _state.update { it.copy(
-                        isAddingNote = true
-                ) }
+                _state.update {
+                    it.copy(
+                            isAddingNote = true
+                    )
+                }
             }
         }
     }

@@ -25,7 +25,7 @@ fun AddNoteDetailScreen(
     navController: NavController,
     modifier: Modifier = Modifier,
     context: Context,
-    id: Int? = null ,
+    id: Int? = 0 ,
     title: String? = "",
     content: String? = ""
 ) {
@@ -66,12 +66,17 @@ fun AddNoteDetailScreen(
                it -> varTitle.value = it
             }, placeholder = { Text(text = "Note Title") })
 
-            TextField(value = varContent.value, onValueChange = {
-                                                                it -> varContent.value = it
+            TextField(value = varContent.value, onValueChange = { it ->
+                varContent.value = it
             }, placeholder = { Text(text = "Contents of your note") })
 
             Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.CenterEnd) {
                 Button(onClick = {
+
+                    state.title = varTitle.value.toString()
+                    state.content = varContent.value.toString()
+                    state.id = id
+
                     onEvent(NoteEvent.SaveNote)
                     navController.popBackStack()
                 }) {
