@@ -24,18 +24,23 @@ fun NoteScreen(
 
     Scaffold(floatingActionButton = {
         FloatingActionButton(onClick = {
-        onEvent(NoteEvent.ShowDialog) }
+            navController.navigate(Routes.ADD_NOTE_DETAIL_SCREEN)
+        //onEvent(NoteEvent.ShowDialog)
+        }
         ) {
             Icon(
                     imageVector = Icons.Default.Add,
                     contentDescription = "Add note")
 
         }
-    }) {padding ->
-        if(state.isAddingNote) {
-            navController.navigate(Routes.ADD_NOTE_DETAIL_SCREEN)
-           // AddNoteDialog(state = state, onEvent = onEvent  )
-        }
+    })
+    {padding ->
+
+//
+//        if(state.isAddingNote) {
+//            navController.navigate(Routes.ADD_NOTE_DETAIL_SCREEN)
+//           // AddNoteDialog(state = state, onEvent = onEvent  )
+
 
 
         LazyColumn(
