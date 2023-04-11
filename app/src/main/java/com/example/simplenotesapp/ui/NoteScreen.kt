@@ -11,12 +11,17 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import com.example.simplenotesapp.util.Routes
 
 @Composable
 fun NoteScreen(
     state: NoteState,
-    onEvent:  (NoteEvent) -> Unit
+    onEvent:  (NoteEvent) -> Unit,
+    navController: NavController
 ) {
+
+
     Scaffold(floatingActionButton = {
         FloatingActionButton(onClick = {
         onEvent(NoteEvent.ShowDialog) }
@@ -28,7 +33,8 @@ fun NoteScreen(
         }
     }) {padding ->
         if(state.isAddingNote) {
-            AddNoteDialog(state = state, onEvent = onEvent  )
+            navController.navigate(Routes.ADD_NOTE_DETAIL_SCREEN)
+           // AddNoteDialog(state = state, onEvent = onEvent  )
         }
 
 
