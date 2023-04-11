@@ -86,8 +86,8 @@ class MainActivity : ComponentActivity() {
                                     navArgument("content") { type = NavType.StringType })
                     ) { backStackEntry ->
                         val id = backStackEntry.arguments?.getInt("id") ?: 0
-                        val title = backStackEntry.arguments?.getString("title") ?: ""
-                        val content = backStackEntry.arguments?.getString("content") ?: ""
+                        val  title = backStackEntry.arguments?.getString("title") ?: ""
+                        val  content = backStackEntry.arguments?.getString("content") ?: ""
 
                         AddNoteDetailScreen(
                                 state = state,

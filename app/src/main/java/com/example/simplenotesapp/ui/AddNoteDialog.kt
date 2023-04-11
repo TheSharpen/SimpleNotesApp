@@ -43,7 +43,6 @@ fun AddNoteDialog(
                         onEvent(NoteEvent.SaveNote)
                     }) {
                         Text(text = "Save")
-
                     }
                 }
             }
