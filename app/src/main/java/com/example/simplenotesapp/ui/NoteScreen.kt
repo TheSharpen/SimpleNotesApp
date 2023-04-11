@@ -1,14 +1,22 @@
 package com.example.simplenotesapp.ui
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
@@ -25,7 +33,6 @@ fun NoteScreen(
     Scaffold(floatingActionButton = {
         FloatingActionButton(onClick = {
             navController.navigate(Routes.ADD_NOTE_DETAIL_SCREEN)
-        //onEvent(NoteEvent.ShowDialog)
         }
         ) {
             Icon(
@@ -36,34 +43,53 @@ fun NoteScreen(
     })
     {padding ->
 
-//
-//        if(state.isAddingNote) {
-//            navController.navigate(Routes.ADD_NOTE_DETAIL_SCREEN)
-//           // AddNoteDialog(state = state, onEvent = onEvent  )
-
-
-
         LazyColumn(
             contentPadding = padding,
-            modifier = Modifier.fillMaxSize(),
-            verticalArrangement = Arrangement.spacedBy(16.dp)
+            modifier = Modifier.fillMaxSize().background(color = Color(0xFFffff99)),
+            verticalArrangement = Arrangement.spacedBy(16.dp),
+
     ) {
         items(state.notes) { note ->
-            Row(modifier = Modifier.fillMaxWidth()) {
-                Column(modifier = Modifier.weight(1f)) {
-                    Text(text = note.title, fontSize = 32.sp)
-                    Spacer(modifier = Modifier.size(12.dp))
-                    Text(text = note.content, fontSize = 20.sp)
-                    
-                }
-                IconButton(onClick = { onEvent(NoteEvent.DeleteNote(note)) }) {
-                    Icon(
-                            imageVector = Icons.Default.Delete,
-                            contentDescription = "Delete note"
-                    )
+            Card(
+                    shape = RoundedCornerShape(8),
+                    elevation =8.dp,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp, vertical = 4.dp)
+                        .clickable(onClick = {
+                            //nav with args
+                        }),
 
+            ) {
+                Row(
+                        modifier = Modifier.padding(16.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Column(modifier = Modifier.weight(1f)) {
+                        Text(
+                                text = note.title,
+                                fontSize = 32.sp,
+                                fontWeight = FontWeight.Bold,
+                                color = Color.Black
+                        )
+                        Spacer(modifier = Modifier.size(12.dp))
+                        Text(
+                                text = note.content,
+                                fontSize = 20.sp,
+                                color = Color.Gray
+                        )
+                    }
+                    IconButton(
+                            onClick = { onEvent(NoteEvent.DeleteNote(note)) },
+                            modifier = Modifier.size(48.dp)
+                    ) {
+                        Icon(
+                                imageVector = Icons.Default.Delete,
+                                contentDescription = "Delete note",
+                                tint = Color.Red
+                        )
+                    }
                 }
-                
             }
 
         }
