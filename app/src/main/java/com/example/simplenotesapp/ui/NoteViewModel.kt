@@ -32,9 +32,7 @@ class NoteViewModel(
 
     fun update_searchNotes() {
         _searchNotes.value = state.value.notes
-
     }
-
 
     private val _searchNotes = MutableStateFlow(state.value.notes)
     val searchNotes = searchText
