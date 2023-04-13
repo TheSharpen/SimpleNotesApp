@@ -30,8 +30,15 @@ class NoteViewModel(
     private val _isSearching = MutableStateFlow(false)
     val isSearching = _isSearching.asStateFlow()
 
+    fun update_searchNotes() {
+        _searchNotes.value = state.value.notes
+
+    }
+
+
     private val _searchNotes = MutableStateFlow(state.value.notes)
-    val searchNotes = searchText.combine(_searchNotes) { text, searchNotes ->
+    val searchNotes = searchText
+        .combine(_searchNotes) { text, searchNotes ->
         if (text.isBlank()) {
             searchNotes
         } else {
@@ -40,8 +47,6 @@ class NoteViewModel(
             }
         }
     }
-
-
         .stateIn(
                 viewModelScope, SharingStarted.WhileSubscribed(5000), _searchNotes.value
         )

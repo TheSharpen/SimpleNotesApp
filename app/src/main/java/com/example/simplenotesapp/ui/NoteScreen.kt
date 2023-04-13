@@ -1,5 +1,6 @@
 package com.example.simplenotesapp.ui
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -48,6 +49,11 @@ fun NoteScreen(
 
         }
     }) { padding ->
+
+        //TODO: runs everytime composable changes.. review
+        viewModel.update_searchNotes().also {
+            Log.d("XLOG","updateSearchNotes ran")
+        }
 
         Column(
                 modifier = Modifier
