@@ -56,7 +56,6 @@ class MainActivity : ComponentActivity() {
             SimpleNotesAppTheme {
 
                 val state by viewModel.state.collectAsState()
-
                 val navController = rememberNavController()
 
                 NavHost(navController,
@@ -67,7 +66,8 @@ class MainActivity : ComponentActivity() {
                         NoteScreen(
                                 state = state,
                                 onEvent = viewModel::onEvent,
-                                navController = navController
+                                navController = navController,
+                                viewModel = viewModel
                         )
                     }
                     composable(Routes.ADD_NOTE_DETAIL_SCREEN) {

@@ -11,6 +11,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -19,6 +20,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.simplenotesapp.util.Routes
 
@@ -28,6 +30,10 @@ fun NoteScreen(
     onEvent:  (NoteEvent) -> Unit,
     navController: NavController
 ) {
+
+    val viewModel = viewModel<NoteViewModel>()
+    //val searchText by viewModel.searchText.collectAsState("")
+
 
 
     Scaffold(floatingActionButton = {
@@ -43,28 +49,31 @@ fun NoteScreen(
     })
     {padding ->
 
+        Column(modifier = Modifier.fillMaxWidth()) {
+            TextField(value = , onValueChange = )
+            
+        }
+
         LazyColumn(
             contentPadding = padding,
-            modifier = Modifier.fillMaxSize().background(color = Color(0xFFffff99)),
+            modifier = Modifier
+                .fillMaxSize()
+                .background(color = Color(0xFFffff99)),
             verticalArrangement = Arrangement.spacedBy(16.dp),
 
-    ) {
-        items(state.notes) { note ->
-            Card(
-                    shape = RoundedCornerShape(8),
-                    elevation =8.dp,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 16.dp, vertical = 4.dp)
-                        .clickable(onClick = {
-                            navController.navigate(
-                                    "${Routes.ADD_NOTE_DETAIL_SCREEN}/${note.id}/${note.title}/${note.content}")
-
-
-
-                                    // navArguemnts added - add IF functions to adjust AddNoteDetailScreen layout
-                            // if note = null, hints + add new, if note.id is not null (is different from -1?) show note.
-                        }),
+                ) {
+            items(state.notes) { note ->
+                Card(
+                        shape = RoundedCornerShape(8),
+                        elevation = 8.dp,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 16.dp, vertical = 4.dp)
+                            .clickable(onClick = {
+                                navController.navigate(
+                                        "${Routes.ADD_NOTE_DETAIL_SCREEN}/${note.id}/${note.title}/${note.content}"
+                                )
+                            }),
 
             ) {
                 Row(
