@@ -22,6 +22,45 @@ class NoteViewModel(
         )
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), NoteState())
 
+    //Search function
+    private val _searchText = MutableStateFlow("")
+    val searchText = _searchText.asStateFlow()
+
+    private val _isSearching = MutableStateFlow(false)
+    val isSearching = _isSearching.asStateFlow()
+
+    private val _searchNotes = MutableStateFlow(state.value.notes)
+    val searchNotes = searchText.combine(_searchNotes) { text, searchNotes ->
+        if (text.isBlank()) {
+            searchNotes
+        } else {
+            searchNotes.filter {
+                it.doesMatchSearchQuery(text)
+            }
+        }
+    }
+        .stateIn(
+            viewModelScope,
+            SharingStarted.WhileSubscribed(5000),
+            _searchNotes.value
+    )
+
+    fun Note.doesMatchSearchQuery(query: String): Boolean {
+        val matchingCombinations = listOf<String>(
+                state.value.title,
+                "${state.value.title.first()}",
+                state.value.content,
+                "${state.value.content.first()}"
+        )
+        return matchingCombinations.any {
+            it.contains(query, ignoreCase = true)
+        }
+    }
+
+
+    fun onSearchTextChange(text: String) {
+        _searchText.value = text
+    }
 
     fun onEvent(event: NoteEvent) {
         when (event) {
