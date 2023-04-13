@@ -12,6 +12,8 @@ import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -28,11 +30,14 @@ import com.example.simplenotesapp.util.Routes
 fun NoteScreen(
     state: NoteState,
     onEvent:  (NoteEvent) -> Unit,
-    navController: NavController
+    navController: NavController,
+    viewModel: NoteViewModel
 ) {
 
-    val viewModel = viewModel<NoteViewModel>()
-    //val searchText by viewModel.searchText.collectAsState("")
+    val searchText = viewModel.searchText.collectAsState()
+    val searchNotes = viewModel.searchNotes.collectAsState()
+    val isSearching = viewModel.isSearching.collectAsState()
+
 
 
 
@@ -49,10 +54,7 @@ fun NoteScreen(
     })
     {padding ->
 
-        Column(modifier = Modifier.fillMaxWidth()) {
-            TextField(value = , onValueChange = )
-            
-        }
+
 
         LazyColumn(
             contentPadding = padding,
@@ -62,6 +64,21 @@ fun NoteScreen(
             verticalArrangement = Arrangement.spacedBy(16.dp),
 
                 ) {
+            item {
+                Column(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(16.dp)
+                ) {
+                    TextField(value = searchText.value,
+                            onValueChange = viewModel::onSearchTextChange,
+                            modifier = Modifier.fillMaxWidth().height(100.dp),
+                            placeholder = { Text(text = "Search") }
+                    )
+                    Spacer(modifier = Modifier.height(16.dp))
+
+                }
+            }
             items(state.notes) { note ->
                 Card(
                         shape = RoundedCornerShape(8),
