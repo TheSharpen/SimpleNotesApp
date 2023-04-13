@@ -1,5 +1,6 @@
 package com.example.simplenotesapp.ui
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import com.example.simplenotesapp.data.NoteDao
 import androidx.lifecycle.viewModelScope
@@ -39,23 +40,23 @@ class NoteViewModel(
             }
         }
     }
-        .stateIn(
-            viewModelScope,
-            SharingStarted.WhileSubscribed(5000),
-            _searchNotes.value
-    )
 
-    fun Note.doesMatchSearchQuery(query: String): Boolean {
-        val matchingCombinations = listOf<String>(
-                state.value.title,
-                "${state.value.title.first()}",
-                state.value.content,
-                "${state.value.content.first()}"
+
+        .stateIn(
+                viewModelScope, SharingStarted.WhileSubscribed(5000), _searchNotes.value
         )
-        return matchingCombinations.any {
-            it.contains(query, ignoreCase = true)
-        }
-    }
+
+//    fun Note.doesMatchSearchQuery(query: String): Boolean {
+//        val matchingCombinations = listOf<String>(
+//                state.value.title,
+//                "${state.value.title.first()}",
+//                state.value.content,
+//                "${state.value.content.first()}"
+//        )
+//        return matchingCombinations.any {
+//            it.contains(query, ignoreCase = true)
+//        }
+//    }
 
 
     fun onSearchTextChange(text: String) {

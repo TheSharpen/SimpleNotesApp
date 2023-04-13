@@ -10,4 +10,16 @@ data class Note(
     val content: String,
 
     @PrimaryKey(autoGenerate = true) val id: Int = 0,
-)
+) {
+    fun doesMatchSearchQuery(query: String): Boolean {
+        val matchingCombinations = listOf<String>(
+                title,
+                "${title.first()}",
+                content,
+                "${content.first()}"
+        )
+        return matchingCombinations.any {
+            it.contains(query, ignoreCase = true)
+        }
+    }
+}

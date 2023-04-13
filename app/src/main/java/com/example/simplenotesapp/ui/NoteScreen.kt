@@ -29,104 +29,153 @@ import com.example.simplenotesapp.util.Routes
 @Composable
 fun NoteScreen(
     state: NoteState,
-    onEvent:  (NoteEvent) -> Unit,
+    onEvent: (NoteEvent) -> Unit,
     navController: NavController,
-    viewModel: NoteViewModel
+    viewModel: NoteViewModel,
 ) {
 
     val searchText = viewModel.searchText.collectAsState()
     val searchNotes = viewModel.searchNotes.collectAsState()
     val isSearching = viewModel.isSearching.collectAsState()
 
-
-
-
     Scaffold(floatingActionButton = {
         FloatingActionButton(onClick = {
             navController.navigate(Routes.ADD_NOTE_DETAIL_SCREEN)
-        }
-        ) {
+        }) {
             Icon(
-                    imageVector = Icons.Default.Add,
-                    contentDescription = "Add note")
+                    imageVector = Icons.Default.Add, contentDescription = "Add note"
+            )
 
         }
-    })
-    {padding ->
+    }) { padding ->
 
-
-
-        LazyColumn(
-            contentPadding = padding,
-            modifier = Modifier
-                .fillMaxSize()
-                .background(color = Color(0xFFffff99)),
-            verticalArrangement = Arrangement.spacedBy(16.dp),
-
-                ) {
-            item {
-                Column(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(16.dp)
-                ) {
-                    TextField(value = searchText.value,
-                            onValueChange = viewModel::onSearchTextChange,
-                            modifier = Modifier.fillMaxWidth().height(100.dp),
-                            placeholder = { Text(text = "Search") }
+        Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(16.dp)
+        ) {
+            if (searchNotes.value.isEmpty()) {
+                TextField(value =
+                searchText.value,
+                        onValueChange = viewModel::onSearchTextChange,
+                        modifier = Modifier.fillMaxWidth(),
+                        placeholder = {
+                            Text(text = "searchNotes EMPTY!")
+                        })
+            } else {
+            TextField(value =
+            searchText.value,
+                    onValueChange = viewModel::onSearchTextChange,
+                    modifier = Modifier.fillMaxWidth(),
+                    placeholder = {
+                        Text(text = "Search")
+                    })}
+            Spacer(modifier = Modifier.height(16.dp))
+            if (isSearching.value) {
+                Box(modifier = Modifier.fillMaxSize()) {
+                    CircularProgressIndicator(
+                            modifier = Modifier.align(Alignment.Center)
                     )
-                    Spacer(modifier = Modifier.height(16.dp))
-
                 }
-            }
-            items(state.notes) { note ->
-                Card(
-                        shape = RoundedCornerShape(8),
-                        elevation = 8.dp,
+            } else {
+                LazyColumn(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(horizontal = 16.dp, vertical = 4.dp)
-                            .clickable(onClick = {
-                                navController.navigate(
-                                        "${Routes.ADD_NOTE_DETAIL_SCREEN}/${note.id}/${note.title}/${note.content}"
-                                )
-                            }),
-
-            ) {
-                Row(
-                        modifier = Modifier.padding(16.dp),
-                        verticalAlignment = Alignment.CenterVertically
+                            .weight(1f)
                 ) {
-                    Column(modifier = Modifier.weight(1f)) {
+                    items(searchNotes.value) { note ->
                         Text(
                                 text = note.title,
-                                fontSize = 32.sp,
-                                fontWeight = FontWeight.Bold,
-                                color = Color.Black
-                        )
-                        Spacer(modifier = Modifier.size(12.dp))
-                        Text(
-                                text = note.content,
-                                fontSize = 20.sp,
-                                color = Color.Gray
-                        )
-                    }
-                    IconButton(
-                            onClick = { onEvent(NoteEvent.DeleteNote(note)) },
-                            modifier = Modifier.size(48.dp)
-                    ) {
-                        Icon(
-                                imageVector = Icons.Default.Delete,
-                                contentDescription = "Delete note",
-                                tint = Color.Red
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(vertical = 16.dp)
                         )
                     }
                 }
             }
 
         }
-        
-    }
 
+//        Column(
+//                modifier = Modifier
+//                    .fillMaxWidth()
+//                    .background(color = Color(0xFFffff99))
+//                    .padding(16.dp)
+//        ) {
+//
+//
+//            TextField(value = searchText.value,
+//                    onValueChange = viewModel::onSearchTextChange,
+//                    modifier = Modifier.fillMaxWidth(),
+//
+//                    placeholder = { Text(text = "Search") })
+//            Spacer(modifier = Modifier.height(16.dp))
+//
+//            LazyColumn(
+//                    modifier = Modifier
+//                        .fillMaxWidth()
+//            ) {
+//                items(searchNotes.value) { note ->
+//                    Text(text = note.title,
+//                            modifier = Modifier.fillMaxWidth())
+//
+//                }
+//            }
+//
+//            LazyColumn(
+//                    contentPadding = padding,
+//                    modifier = Modifier.fillMaxSize(),
+//                    verticalArrangement = Arrangement.spacedBy(16.dp),
+//
+//                    ) {
+//
+//                items(state.notes) { note ->
+//                    Card(
+//                            shape = RoundedCornerShape(8),
+//                            elevation = 8.dp,
+//                            modifier = Modifier
+//                                .fillMaxWidth()
+//                                .padding(horizontal = 16.dp, vertical = 4.dp)
+//                                .clickable(onClick = {
+//                                    navController.navigate(
+//                                            "${Routes.ADD_NOTE_DETAIL_SCREEN}/${note.id}/${note.title}/${note.content}"
+//                                    )
+//                                }),
+//
+//                            ) {
+//                        Row(
+//                                modifier = Modifier.padding(16.dp),
+//                                verticalAlignment = Alignment.CenterVertically
+//                        ) {
+//                            Column(modifier = Modifier.weight(1f)) {
+//                                Text(
+//                                        text = note.title,
+//                                        fontSize = 32.sp,
+//                                        fontWeight = FontWeight.Bold,
+//                                        color = Color.Black
+//                                )
+//                                Spacer(modifier = Modifier.size(12.dp))
+//                                Text(
+//                                        text = note.content, fontSize = 20.sp, color = Color.Gray
+//                                )
+//                            }
+//                            IconButton(
+//                                    onClick = { onEvent(NoteEvent.DeleteNote(note)) },
+//                                    modifier = Modifier.size(48.dp)
+//                            ) {
+//                                Icon(
+//                                        imageVector = Icons.Default.Delete,
+//                                        contentDescription = "Delete note",
+//                                        tint = Color.Red
+//                                )
+//                            }
+//                        }
+//                    }
+//
+//                }
+//
+//            }
+//
+//        }
     }
 }
