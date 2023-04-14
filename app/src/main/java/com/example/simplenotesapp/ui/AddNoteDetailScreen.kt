@@ -8,6 +8,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -47,8 +48,6 @@ fun AddNoteDetailScreen(
         state.title = ""
         state.content = ""
     }
-
-    //backgroundColor = Color(0xFFF3E99F)
 
     Column(
             verticalArrangement = Arrangement.spacedBy(12.dp),
@@ -98,30 +97,40 @@ fun AddNoteDetailScreen(
                                 )
                                 )
                             },
+                            colors = TextFieldDefaults.textFieldColors(
+                                    backgroundColor = Color.White
+                            ),
 
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .border(width = 0.dp, color = Color.Transparent),
                     )
 
-                    TextField(
-                            value = state.content,
-                            onValueChange = {
-                                onEvent(NoteEvent.SetContent(it))
-                            },
-                            placeholder = {
-                                Text(
-                                        text = "Contents of your note", style = TextStyle(
-                                        fontSize = 16.sp, color = Color(0xFFA8A8A8)
-                                )
-                                )
-                            },
+                    LazyColumn(modifier = Modifier
+                        .weight(1f)
+                        .fillMaxSize()) {
+                        item { TextField(
+                                value = state.content,
+                                onValueChange = {
+                                    onEvent(NoteEvent.SetContent(it))
+                                },colors = TextFieldDefaults.textFieldColors(
+                                backgroundColor = Color.White
+                        ),
+                                placeholder = {
+                                    Text(
+                                            text = "Contents of your note", style = TextStyle(
+                                            fontSize = 16.sp, color = Color(0xFFA8A8A8)
+                                    )
+                                    )
+                                },
 
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .weight(1f)
-                                .border(width = 0.dp, color = Color.Transparent),
-                    )
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .weight(1f)
+                                    .border(width = 0.dp, color = Color.Transparent),
+                        ) }
+                    }
+
 
                     Box(
                             modifier = Modifier
@@ -159,6 +168,9 @@ fun AddNoteDetailScreen(
                                     textAlign = TextAlign.Center,
                                     textDecoration = TextDecoration.None
                             ),
+                            colors = TextFieldDefaults.textFieldColors(
+                                    backgroundColor = Color.White
+                            ),
 
                             modifier = Modifier
                                 .fillMaxWidth()
@@ -169,21 +181,32 @@ fun AddNoteDetailScreen(
                                 )
                     )
 
-                    TextField(
-                            value = varContent.value, onValueChange = { it ->
-                        varContent.value = it
-                    }, textStyle = TextStyle(
-                            fontSize = 16.sp, color = Color.Black
-                    ), modifier = Modifier
-                        .weight(1f)
-                        .fillMaxWidth()
-                        .border(
-                                width = 0.dp,
-                                color = Color.Transparent,
-                                shape = RoundedCornerShape(8.dp)
-                        )
+                    LazyColumn(modifier = Modifier
 
-                    )
+                        .fillMaxSize()) {
+                        item {
+                            TextField(
+                                    value = varContent.value, onValueChange = { it ->
+                                varContent.value = it
+                            }, textStyle = TextStyle(
+                                    fontSize = 16.sp, color = Color.Black
+                            ), colors = TextFieldDefaults.textFieldColors(
+                                    backgroundColor = Color.White
+                            ), modifier = Modifier
+                                .weight(1f)
+                                .fillMaxSize()
+                                .border(
+                                        width = 0.dp,
+                                        color = Color.Transparent,
+                                        shape = RoundedCornerShape(8.dp)
+                                )
+
+                            )
+                        }
+
+                    }
+
+
 
 
                     Row(
