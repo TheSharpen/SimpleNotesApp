@@ -3,6 +3,7 @@ package com.example.simplenotesapp.ui
 import android.content.Context
 import android.util.Log
 import android.widget.Toast
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -31,6 +32,12 @@ fun AddNoteDetailScreen(
 ) {
 
     Log.d("ZLOG","id is ${id.toString()}")
+
+    BackHandler() {
+        navController.popBackStack()
+        state.title = ""
+        state.content = ""
+    }
 
     if (id == null || id == 0) {
         Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
