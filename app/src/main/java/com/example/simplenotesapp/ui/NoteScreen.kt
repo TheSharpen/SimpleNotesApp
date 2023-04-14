@@ -26,7 +26,6 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.simplenotesapp.util.Routes
-
 @Composable
 fun NoteScreen(
     state: NoteState,
@@ -34,23 +33,25 @@ fun NoteScreen(
     navController: NavController,
     viewModel: NoteViewModel,
 ) {
-
     val searchText = viewModel.searchText.collectAsState()
     val searchNotes = viewModel.searchNotes.collectAsState()
     val isSearching = viewModel.isSearching.collectAsState()
 
-    Scaffold(floatingActionButton = {
-        FloatingActionButton(onClick = {
-            navController.navigate(Routes.ADD_NOTE_DETAIL_SCREEN)
-        }) {
-            Icon(
-                    imageVector = Icons.Default.Add, contentDescription = "Add note"
-            )
+    Scaffold(
+            floatingActionButton = {
+                FloatingActionButton(onClick = {
+                    navController.navigate(Routes.ADD_NOTE_DETAIL_SCREEN)
+                }) {
+                    Icon(
+                            imageVector = Icons.Default.Add,
+                            contentDescription = "Add note",
+                            tint = Color.White
+                    )
+                }
+            },
+            backgroundColor = Color(0xFFF3E99F)
+    ) { padding ->
 
-        }
-    }) { padding ->
-
-        //TODO: runs everytime composable changes.. review
         viewModel.update_searchNotes().also {
             Log.d("XLOG", "updateSearchNotes ran")
         }
@@ -61,19 +62,47 @@ fun NoteScreen(
                     .padding(16.dp)
         ) {
             if (searchNotes.value.isEmpty()) {
-                TextField(value = searchText.value,
+                TextField(
+                        value = searchText.value,
                         onValueChange = viewModel::onSearchTextChange,
-                        modifier = Modifier.fillMaxWidth(),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .background(Color.White)
+                            .clip(RoundedCornerShape(8.dp))
+                            .padding(16.dp),
                         placeholder = {
-                            Text(text = "searchNotes EMPTY!")
-                        })
+                            Text(
+                                    text = "searchNotes EMPTY!",
+                                    color = Color.Gray,
+                                    fontSize = 20.sp
+                            )
+                        },
+                        textStyle = MaterialTheme.typography.h6.copy(
+                                color = Color.Black,
+                                fontWeight = FontWeight.Bold
+                        )
+                )
             } else {
-                TextField(value = searchText.value,
+                TextField(
+                        value = searchText.value,
                         onValueChange = viewModel::onSearchTextChange,
-                        modifier = Modifier.fillMaxWidth(),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .background(Color.White)
+                            .clip(RoundedCornerShape(8.dp))
+                            .padding(16.dp),
                         placeholder = {
-                            Text(text = "Search")
-                        })
+                            Text(
+                                    text = "Search",
+                                    color = Color.Gray,
+                                    fontSize = 20.sp
+                            )
+                        },
+                        textStyle = MaterialTheme.typography.h6.copy(
+                                color = Color.Black,
+                                fontWeight = FontWeight.Bold
+                        )
+                )
             }
             Spacer(modifier = Modifier.height(16.dp))
             if (isSearching.value) {
@@ -90,7 +119,7 @@ fun NoteScreen(
                 ) {
                     items(searchNotes.value) { note ->
                         Card(
-                                shape = RoundedCornerShape(8),
+                                shape = RoundedCornerShape(8.dp),
                                 elevation = 8.dp,
                                 modifier = Modifier
                                     .fillMaxWidth()
@@ -100,30 +129,26 @@ fun NoteScreen(
                                                 "${Routes.ADD_NOTE_DETAIL_SCREEN}/${note.id}/${note.title}/${note.content}"
                                         )
                                     }),
-
-                                ) {
-                            Row(
-                                    modifier = Modifier.padding(16.dp),
-                                    verticalAlignment = Alignment.CenterVertically
+                                backgroundColor = Color.White,
+                        ) {
+                            Column(
+                                    modifier = Modifier.padding(16.dp)
                             ) {
-                                Column(modifier = Modifier.weight(1f)) {
-                                    Text(
-                                            text = note.title,
-                                            fontSize = 32.sp,
-                                            fontWeight = FontWeight.Bold,
-                                            color = Color.Black
-                                    )
-                                    Spacer(modifier = Modifier.size(12.dp))
-                                    Text(
-                                            text = note.content,
-                                            fontSize = 20.sp,
-                                            color = Color.Gray
-                                    )
-                                }
+                                Text(
+                                        text = note.title,
+                                        fontSize = 24.sp,
+                                        fontWeight = FontWeight.Bold,
+                                        color = Color(0xFFF7D060)
+                                )
+                                Spacer(modifier = Modifier.size(12.dp))
+                                Text(
+                                        text = note.content,
+                                        fontSize = 16.sp,
+                                        color = Color.Black
+                                )
                             }
                         }
                     }
-
                 }
             }
         }
