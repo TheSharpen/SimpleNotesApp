@@ -135,5 +135,3 @@ fun AddNoteDetailScreen(
         }
     }
 }
-
-//Gym workout

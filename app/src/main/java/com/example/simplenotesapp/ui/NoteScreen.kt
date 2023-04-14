@@ -2,6 +2,7 @@ package com.example.simplenotesapp.ui
 
 import android.util.Log
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -11,6 +12,7 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
@@ -26,6 +28,7 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.simplenotesapp.util.Routes
+
 @Composable
 fun NoteScreen(
     state: NoteState,
@@ -49,62 +52,47 @@ fun NoteScreen(
                     )
                 }
             },
+
             backgroundColor = Color(0xFFF3E99F)
     ) { padding ->
 
-        viewModel.update_searchNotes().also {
-            Log.d("XLOG", "updateSearchNotes ran")
-        }
+        viewModel.update_searchNotes().also {}
 
         Column(
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(16.dp)
         ) {
-            if (searchNotes.value.isEmpty()) {
-                TextField(
-                        value = searchText.value,
-                        onValueChange = viewModel::onSearchTextChange,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .background(Color.White)
-                            .clip(RoundedCornerShape(8.dp))
-                            .padding(16.dp),
-                        placeholder = {
-                            Text(
-                                    text = "searchNotes EMPTY!",
-                                    color = Color.Gray,
-                                    fontSize = 20.sp
-                            )
-                        },
-                        textStyle = MaterialTheme.typography.h6.copy(
-                                color = Color.Black,
-                                fontWeight = FontWeight.Bold
+
+            TextField(
+                    value = searchText.value,
+                    onValueChange = viewModel::onSearchTextChange,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clip(RoundedCornerShape(8.dp))
+                        .background(color = Color(0xFFF1E599))
+                        .border(width = 0.dp, color = Color.Transparent),
+                    leadingIcon = {
+                        Icon(
+                                imageVector = Icons.Default.Search,
+                                contentDescription = "Search",
+                                tint = Color.Gray,
                         )
-                )
-            } else {
-                TextField(
-                        value = searchText.value,
-                        onValueChange = viewModel::onSearchTextChange,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .background(Color.White)
-                            .clip(RoundedCornerShape(8.dp))
-                            .padding(16.dp),
-                        placeholder = {
-                            Text(
-                                    text = "Search",
-                                    color = Color.Gray,
-                                    fontSize = 20.sp
-                            )
-                        },
-                        textStyle = MaterialTheme.typography.h6.copy(
-                                color = Color.Black,
-                                fontWeight = FontWeight.Bold
+                    },
+                    textStyle = MaterialTheme.typography.h6.copy(
+                            color = Color.Black, fontWeight = FontWeight.Bold
+                    ),
+                    placeholder = {
+                        Text(
+                                text = "Search",
+                                color = Color.Gray,
+                                fontSize = 20.sp,
                         )
-                )
-            }
-            Spacer(modifier = Modifier.height(16.dp))
+                    },
+            )
+
+
+            Spacer(modifier = Modifier.height(8.dp))
             if (isSearching.value) {
                 Box(modifier = Modifier.fillMaxSize()) {
                     CircularProgressIndicator(
@@ -123,7 +111,7 @@ fun NoteScreen(
                                 elevation = 8.dp,
                                 modifier = Modifier
                                     .fillMaxWidth()
-                                    .padding(horizontal = 16.dp, vertical = 4.dp)
+                                    .padding(horizontal = 16.dp, vertical = 8.dp)
                                     .clickable(onClick = {
                                         navController.navigate(
                                                 "${Routes.ADD_NOTE_DETAIL_SCREEN}/${note.id}/${note.title}/${note.content}"
@@ -138,13 +126,11 @@ fun NoteScreen(
                                         text = note.title,
                                         fontSize = 24.sp,
                                         fontWeight = FontWeight.Bold,
-                                        color = Color(0xFFF7D060)
+                                        color = Color(0xFFF2A900)
                                 )
                                 Spacer(modifier = Modifier.size(12.dp))
                                 Text(
-                                        text = note.content,
-                                        fontSize = 16.sp,
-                                        color = Color.Black
+                                        text = note.content, fontSize = 16.sp, color = Color.Black
                                 )
                             }
                         }
