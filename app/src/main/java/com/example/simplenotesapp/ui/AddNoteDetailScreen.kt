@@ -1,21 +1,21 @@
 package com.example.simplenotesapp.ui
 
 import android.content.Context
+import android.util.Log
 import android.widget.Toast
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.material.Button
-import androidx.compose.material.Text
-import androidx.compose.material.TextField
+import androidx.compose.foundation.layout.*
+import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.example.simplenotesapp.data.entity.Note
 
 
 @Composable
@@ -25,12 +25,14 @@ fun AddNoteDetailScreen(
     navController: NavController,
     modifier: Modifier = Modifier,
     context: Context,
-    id: Int? = 0 ,
+    id: Int? = 0,
     title: String? = "",
-    content: String? = ""
+    content: String? = "",
 ) {
 
-    if (id == null) {
+    Log.d("ZLOG","id is ${id.toString()}")
+
+    if (id == null || id == 0) {
         Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
 
 
@@ -62,28 +64,69 @@ fun AddNoteDetailScreen(
 
 
         Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
-            TextField(value = varTitle.value, onValueChange = {
-               it -> varTitle.value = it
+            TextField(value = varTitle.value, onValueChange = { it ->
+                varTitle.value = it
             }, placeholder = { Text(text = "Note Title") })
 
             TextField(value = varContent.value, onValueChange = { it ->
                 varContent.value = it
             }, placeholder = { Text(text = "Contents of your note") })
 
-            Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.CenterEnd) {
-                Button(onClick = {
 
-                    state.title = varTitle.value.toString()
-                    state.content = varContent.value.toString()
-                    state.id = id
 
-                    onEvent(NoteEvent.SaveNote)
-                    navController.popBackStack()
-                }) {
-                    Text(text = "Save Changes")
+
+            Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceAround
+            ) {
+
+
+                Box(
+                        modifier = Modifier.wrapContentWidth(),
+                        contentAlignment = Alignment.CenterStart
+                ) {
+                    IconButton(
+                            onClick = {
+
+                                val note = Note(
+                                        title = state.title, content = state.content, id = id
+                                )
+
+                                onEvent(NoteEvent.DeleteNote(note))
+                                navController.popBackStack()
+                            }, modifier = Modifier.size(64.dp)
+                    ) {
+                        Icon(
+                                imageVector = Icons.Default.Delete,
+                                contentDescription = "Delete note",
+                                tint = Color.Gray
+                        )
+                    }
+
+
                 }
-            }
 
+                Box(
+                        modifier = Modifier.wrapContentWidth(),
+                        contentAlignment = Alignment.CenterEnd
+                ) {
+                    Button(onClick = {
+
+                        state.title = varTitle.value.toString()
+                        state.content = varContent.value.toString()
+                        state.id = id
+
+                        onEvent(NoteEvent.SaveNote)
+                        navController.popBackStack()
+                    }) {
+                        Text(text = "Save Changes")
+                    }
+
+
+                }
+
+
+            }
         }
     }
 }

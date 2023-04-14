@@ -19,7 +19,4 @@ interface NoteDao {
     @Query("SELECT * FROM note ORDER BY id ASC")
     fun getAllNotes(): Flow<List<Note>>
 
-
-
-
 }
