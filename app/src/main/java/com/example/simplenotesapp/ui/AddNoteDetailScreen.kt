@@ -31,8 +31,6 @@ fun AddNoteDetailScreen(
     content: String? = "",
 ) {
 
-    Log.d("ZLOG","id is ${id.toString()}")
-
     BackHandler() {
         navController.popBackStack()
         state.title = ""
@@ -137,3 +135,5 @@ fun AddNoteDetailScreen(
         }
     }
 }
+
+//Gym workout
