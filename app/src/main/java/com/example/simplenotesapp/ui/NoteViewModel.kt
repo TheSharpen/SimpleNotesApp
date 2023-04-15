@@ -1,6 +1,8 @@
 package com.example.simplenotesapp.ui
 
 import android.util.Log
+import android.widget.Toast
+import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.ViewModel
 import com.example.simplenotesapp.data.NoteDao
 import androidx.lifecycle.viewModelScope
@@ -23,7 +25,6 @@ class NoteViewModel(
         )
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), NoteState())
 
-    //Search function
     private val _searchText = MutableStateFlow("")
     val searchText = _searchText.asStateFlow()
 
@@ -35,32 +36,17 @@ class NoteViewModel(
     }
 
     private val _searchNotes = MutableStateFlow(state.value.notes)
-    val searchNotes = searchText
-        .combine(_searchNotes) { text, searchNotes ->
-        if (text.isBlank()) {
-            searchNotes
-        } else {
-            searchNotes.filter {
-                it.doesMatchSearchQuery(text)
+    val searchNotes = searchText.combine(_searchNotes) { text, searchNotes ->
+            if (text.isBlank()) {
+                searchNotes
+            } else {
+                searchNotes.filter {
+                    it.doesMatchSearchQuery(text)
+                }
             }
-        }
-    }
-        .stateIn(
+        }.stateIn(
                 viewModelScope, SharingStarted.WhileSubscribed(5000), _searchNotes.value
         )
-
-//    fun Note.doesMatchSearchQuery(query: String): Boolean {
-//        val matchingCombinations = listOf<String>(
-//                state.value.title,
-//                "${state.value.title.first()}",
-//                state.value.content,
-//                "${state.value.content.first()}"
-//        )
-//        return matchingCombinations.any {
-//            it.contains(query, ignoreCase = true)
-//        }
-//    }
-
 
     fun onSearchTextChange(text: String) {
         _searchText.value = text

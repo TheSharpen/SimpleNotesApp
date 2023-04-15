@@ -42,7 +42,7 @@ fun NoteScreen(
 
     Scaffold(
             floatingActionButton = {
-                FloatingActionButton(onClick = {
+                FloatingActionButton(backgroundColor = Color.Black.copy(0.85f), onClick = {
                     navController.navigate(Routes.ADD_NOTE_DETAIL_SCREEN)
                 }) {
                     Icon(
