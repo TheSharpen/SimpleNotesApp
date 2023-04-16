@@ -30,6 +30,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.simplenotesapp.util.Routes
 import android.app.Activity
+import androidx.compose.ui.text.style.TextAlign
 import kotlin.system.exitProcess
 
 @Composable
@@ -50,26 +51,37 @@ fun NoteScreen(
     }
 
     if (dialogShown.value) {
-        AlertDialog(onDismissRequest = { dialogShown.value = false }, title = {
-            Text("Are you sure you want to quit?")
-        }, confirmButton = {
-            Button(
-                    onClick = {
-                        dialogShown.value = false
-                        exitProcess(0)
-                    },
-                    colors = ButtonDefaults.buttonColors(backgroundColor = Color.Black.copy(0.85f))
-            ) {
-                Text("Quit", color = Color.White)
-            }
-        }, dismissButton = {
-            Button(
-                    onClick = { dialogShown.value = false },
-                    colors = ButtonDefaults.buttonColors(backgroundColor = Color.Black.copy(0.85f))
-            ) {
-                Text(text = "Cancel", color = Color.White)
-            }
-        })
+        AlertDialog(
+                onDismissRequest = { dialogShown.value = false },
+                title = {
+                    Text("Are you sure you want to quit?",textAlign = TextAlign.Center,modifier = Modifier.fillMaxWidth()) },
+                confirmButton = {
+
+                    Row(
+                            modifier = Modifier.fillMaxWidth().height(70.dp),
+                            horizontalArrangement = Arrangement.SpaceAround,
+                            verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Button(
+                                onClick = {
+                                    dialogShown.value = false
+                                    exitProcess(0)
+                                },
+                                colors = ButtonDefaults.buttonColors(backgroundColor = Color.Black.copy(0.85f))
+                        ) {
+                            Text("Quit", color = Color.White)
+                        }
+                        Button(
+                                onClick = { dialogShown.value = false },
+                                colors = ButtonDefaults.buttonColors(backgroundColor = Color.Black.copy(0.85f))
+                        ) {
+                            Text(text = "Cancel", color = Color.White)
+                        }
+                    }
+
+
+                }
+        )
     }
 
     Scaffold(
