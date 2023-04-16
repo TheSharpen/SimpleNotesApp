@@ -32,6 +32,7 @@ import com.example.simplenotesapp.util.Routes
 import android.app.Activity
 import androidx.compose.material.icons.filled.Clear
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.style.TextAlign
 import com.example.simplenotesapp.R
@@ -109,7 +110,7 @@ fun NoteScreen(
                 }
             },
 
-            backgroundColor = Color(0xFFF3E99F)
+            backgroundColor = colorResource(id = R.color.yellowLight)
     ) { padding ->
 
         viewModel.update_searchNotes()
@@ -126,7 +127,7 @@ fun NoteScreen(
                     modifier = Modifier
                         .fillMaxWidth()
                         .clip(RoundedCornerShape(8.dp))
-                        .background(color = Color(0xFFF1E599))
+                        .background(colorResource(id = R.color.yellowLight))
                         .border(width = 0.dp, color = Color.Transparent),
                     leadingIcon = {
                         Icon(
@@ -201,7 +202,7 @@ fun NoteScreen(
                                         text = note.title,
                                         fontSize = 24.sp,
                                         fontWeight = FontWeight.Bold,
-                                        color = Color(0xFFF2A900)
+                                        color = colorResource(id = R.color.yellowIntense)
                                 )
                                 Spacer(modifier = Modifier.size(12.dp))
                                 Text(

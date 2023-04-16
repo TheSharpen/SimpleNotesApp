@@ -23,6 +23,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.TextStyle
@@ -169,7 +170,8 @@ fun AddNoteDetailScreen(
     Box(
             modifier = Modifier
                 .fillMaxSize()
-                .background(Color(0xFFF3E99F)),
+                .background(
+                        colorResource(id = R.color.yellowLight)),
             contentAlignment = Alignment.Center
     ) {
 
@@ -200,7 +202,7 @@ fun AddNoteDetailScreen(
                         TextField(
                                 textStyle = TextStyle(
                                         fontSize = 28.sp,
-                                        color = Color(0xFFF2A900),
+                                        color = colorResource(id = R.color.yellowLight),
                                         fontWeight = FontWeight.Bold,
                                         textAlign = TextAlign.Start,
                                         textDecoration = TextDecoration.None
@@ -214,7 +216,7 @@ fun AddNoteDetailScreen(
                                     Text(
                                             style = TextStyle(
                                                     fontSize = 24.sp,
-                                                    color = Color(0xFFA8A8A8),
+                                                    color = colorResource(id = R.color.yellowLight),
                                                     fontWeight = FontWeight.Bold,
                                                     textAlign = TextAlign.Start,
                                                     textDecoration = TextDecoration.None
@@ -258,7 +260,7 @@ fun AddNoteDetailScreen(
                                                     text = "Contents of your note",
                                                     style = TextStyle(
                                                             fontSize = 16.sp,
-                                                            color = Color(0xFFA8A8A8)
+                                                            color = colorResource(id = R.color.yellowLight)
                                                     )
                                             )
                                         },
@@ -332,7 +334,7 @@ fun AddNoteDetailScreen(
 
                                 textStyle = TextStyle(
                                         fontSize = 28.sp,
-                                        color = Color(0xFFF2A900),
+                                        color = colorResource(id = R.color.yellowIntense),
                                         fontWeight = FontWeight.Bold,
                                         textAlign = TextAlign.Center,
                                         textDecoration = TextDecoration.None
