@@ -30,7 +30,11 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.simplenotesapp.util.Routes
 import android.app.Activity
+import androidx.compose.material.icons.filled.Clear
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.style.TextAlign
+import com.example.simplenotesapp.R
 import kotlin.system.exitProcess
 
 @Composable
@@ -46,42 +50,50 @@ fun NoteScreen(
 
     val dialogShown = remember { mutableStateOf(false) }
 
+
     BackHandler() {
         dialogShown.value = true
     }
 
     if (dialogShown.value) {
-        AlertDialog(
-                onDismissRequest = { dialogShown.value = false },
-                title = {
-                    Text("Are you sure you want to quit?",textAlign = TextAlign.Center,modifier = Modifier.fillMaxWidth()) },
-                confirmButton = {
+        AlertDialog(onDismissRequest = { dialogShown.value = false }, title = {
+            Text(
+                    "Are you sure you want to quit?",
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier.fillMaxWidth()
+            )
+        }, confirmButton = {
 
-                    Row(
-                            modifier = Modifier.fillMaxWidth().height(70.dp),
-                            horizontalArrangement = Arrangement.SpaceAround,
-                            verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Button(
-                                onClick = {
-                                    dialogShown.value = false
-                                    exitProcess(0)
-                                },
-                                colors = ButtonDefaults.buttonColors(backgroundColor = Color.Black.copy(0.85f))
-                        ) {
-                            Text("Quit", color = Color.White)
-                        }
-                        Button(
-                                onClick = { dialogShown.value = false },
-                                colors = ButtonDefaults.buttonColors(backgroundColor = Color.Black.copy(0.85f))
-                        ) {
-                            Text(text = "Cancel", color = Color.White)
-                        }
-                    }
-
-
+            Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(70.dp),
+                    horizontalArrangement = Arrangement.SpaceAround,
+                    verticalAlignment = Alignment.CenterVertically
+            ) {
+                Button(
+                        onClick = {
+                            dialogShown.value = false
+                            exitProcess(0)
+                        },
+                        colors = ButtonDefaults.buttonColors(
+                                backgroundColor = Color.Black.copy(0.85f)
+                        )
+                ) {
+                    Text("Quit", color = Color.White)
                 }
-        )
+                Button(
+                        onClick = { dialogShown.value = false },
+                        colors = ButtonDefaults.buttonColors(
+                                backgroundColor = Color.Black.copy(0.85f)
+                        )
+                ) {
+                    Text(text = "Cancel", color = Color.White)
+                }
+            }
+
+
+        })
     }
 
     Scaffold(
@@ -100,7 +112,7 @@ fun NoteScreen(
             backgroundColor = Color(0xFFF3E99F)
     ) { padding ->
 
-        viewModel.update_searchNotes().also {}
+        viewModel.update_searchNotes()
 
         Column(
                 modifier = Modifier
@@ -122,6 +134,25 @@ fun NoteScreen(
                                 contentDescription = "Search",
                                 tint = Color.Gray,
                         )
+                    },
+                    trailingIcon = {
+                        if (searchText.value != "" || searchText.value.isNotEmpty()) {
+                            IconButton(onClick = {
+
+                                onEvent(NoteEvent.ResetSearchText(""))
+                            }) {
+
+
+                                Icon(
+                                        imageVector = Icons.Default.Clear,
+                                        contentDescription = "Clear query",
+                                        tint = Color.Gray
+                                )
+                            }
+
+
+
+                        }
                     },
                     textStyle = MaterialTheme.typography.h6.copy(
                             color = Color.Black, fontWeight = FontWeight.Bold

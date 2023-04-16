@@ -25,6 +25,7 @@ class NoteViewModel(
         )
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), NoteState())
 
+
     private val _searchText = MutableStateFlow("")
     val searchText = _searchText.asStateFlow()
 
@@ -110,6 +111,23 @@ class NoteViewModel(
                 _state.update {
                     it.copy(
                             title = event.title
+                    )
+                }
+            }
+            is NoteEvent.ResetSearchText -> {
+                _searchText.value = event.text
+            }
+            is NoteEvent.ResetTitle -> {
+                _state.update {
+                    it.copy(
+                            title = event.text
+                    )
+                }
+            }
+            is NoteEvent.ResetContent -> {
+                _state.update {
+                    it.copy(
+                            content = event.text
                     )
                 }
             }

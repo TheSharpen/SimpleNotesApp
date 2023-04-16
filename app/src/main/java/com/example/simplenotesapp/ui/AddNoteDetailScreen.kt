@@ -4,6 +4,7 @@ import android.content.Context
 import android.util.Log
 import android.widget.Toast
 import androidx.activity.compose.BackHandler
+import androidx.activity.compose.LocalOnBackPressedDispatcherOwner
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -34,6 +35,7 @@ import androidx.navigation.NavController
 import com.example.simplenotesapp.R
 import com.example.simplenotesapp.data.entity.Note
 import com.example.simplenotesapp.util.Routes
+import kotlin.system.exitProcess
 
 
 @Composable
@@ -48,15 +50,120 @@ fun AddNoteDetailScreen(
     content: String? = "",
 ) {
 
+    val dialogShown = remember { mutableStateOf(false) }
+    val deleteDialogShown = remember { mutableStateOf(false) }
+
+
+
     BackHandler() {
-        state.title = ""
-        state.content = ""
-        navController.popBackStack()
-        Log.d("ALOG", "state = ${state.toString()}")
+
+        if (state.title.isNotEmpty() || state.content.isNotEmpty()) {
+            dialogShown.value = true
+        } else {
+            navController.popBackStack()
+            onEvent(NoteEvent.ResetSearchText(""))
+            onEvent(NoteEvent.ResetTitle(""))
+            onEvent(NoteEvent.ResetContent(""))
+        }
+
 
     }
 
-    Log.d("ALOG", "state = ${state.toString()}")
+    if (dialogShown.value) {
+        AlertDialog(onDismissRequest = { dialogShown.value = false }, title = {
+            Text(
+                    "Are you sure you want to discard new note without saving?",
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier.fillMaxWidth()
+            )
+        }, confirmButton = {
+
+            Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(70.dp),
+                    horizontalArrangement = Arrangement.SpaceAround,
+                    verticalAlignment = Alignment.CenterVertically
+            ) {
+
+                Button(
+                        onClick = { dialogShown.value = false },
+                        colors = ButtonDefaults.buttonColors(
+                                backgroundColor = Color.Black.copy(0.85f)
+                        )
+                ) {
+                    Text(text = "Cancel", color = Color.White)
+                }
+                Button(
+                        onClick = {
+                            dialogShown.value = false
+                            navController.popBackStack()
+                            onEvent(NoteEvent.ResetSearchText(""))
+                            onEvent(NoteEvent.ResetTitle(""))
+                            onEvent(NoteEvent.ResetContent(""))
+                        }, colors = ButtonDefaults.buttonColors(
+                        backgroundColor = Color.Black.copy(0.85f)
+                )
+                ) {
+                    Text("Discard", color = Color.White)
+                }
+            }
+
+
+        })
+    }
+
+    if (deleteDialogShown.value) {
+        AlertDialog(onDismissRequest = { deleteDialogShown.value = false }, title = {
+            Text(
+                    "Are you sure you want to delete this note?",
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier.fillMaxWidth()
+            )
+        }, confirmButton = {
+
+            Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(70.dp),
+                    horizontalArrangement = Arrangement.SpaceAround,
+                    verticalAlignment = Alignment.CenterVertically
+            ) {
+
+                Button(
+                        onClick = { deleteDialogShown.value = false },
+                        colors = ButtonDefaults.buttonColors(
+                                backgroundColor = Color.Black.copy(0.85f)
+                        )
+                ) {
+                    Text(text = "Cancel", color = Color.White)
+                }
+                Button(
+                        onClick = {
+
+                            val note = Note(
+                                    title = state.title, content = state.content, id = id!!
+                            )
+
+
+                            deleteDialogShown.value = false
+                            navController.popBackStack()
+                            onEvent(NoteEvent.DeleteNote(note))
+                        }, colors = ButtonDefaults.buttonColors(
+                        backgroundColor = Color.Black.copy(0.85f)
+                )
+                ) {
+                    Text("Delete", color = Color.White)
+                }
+            }
+
+
+        })
+    }
+
+
+
+
 
 
     Box(
@@ -100,6 +207,7 @@ fun AddNoteDetailScreen(
                                 ),
                                 value = state.title,
                                 onValueChange = {
+
                                     onEvent(NoteEvent.SetTitle(it))
                                 },
                                 placeholder = {
@@ -189,16 +297,17 @@ fun AddNoteDetailScreen(
             }
         } else {
 
+            var varTitle = remember {
+                mutableStateOf(title!!)
+            }
+            var varContent = remember {
+                mutableStateOf(content!!)
+            }
+
             Column(
                     verticalArrangement = Arrangement.Top, modifier = Modifier.fillMaxSize()
             ) {
 
-                var varTitle = remember {
-                    mutableStateOf(title!!)
-                }
-                var varContent = remember {
-                    mutableStateOf(content!!)
-                }
 
                 Card(
                         shape = RoundedCornerShape(8),
@@ -305,13 +414,7 @@ fun AddNoteDetailScreen(
                     ) {
                         IconButton(
                                 onClick = {
-
-                                    val note = Note(
-                                            title = state.title, content = state.content, id = id
-                                    )
-
-                                    onEvent(NoteEvent.DeleteNote(note))
-                                    navController.popBackStack()
+                                    deleteDialogShown.value = true
                                 },
                         ) {
                             Icon(
