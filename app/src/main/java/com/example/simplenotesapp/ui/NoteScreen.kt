@@ -1,6 +1,7 @@
 package com.example.simplenotesapp.ui
 
 import android.util.Log
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -28,6 +29,8 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.simplenotesapp.util.Routes
+import android.app.Activity
+import kotlin.system.exitProcess
 
 @Composable
 fun NoteScreen(
@@ -39,6 +42,35 @@ fun NoteScreen(
     val searchText = viewModel.searchText.collectAsState()
     val searchNotes = viewModel.searchNotes.collectAsState()
     val isSearching = viewModel.isSearching.collectAsState()
+
+    val dialogShown = remember { mutableStateOf(false) }
+
+    BackHandler() {
+        dialogShown.value = true
+    }
+
+    if (dialogShown.value) {
+        AlertDialog(onDismissRequest = { dialogShown.value = false }, title = {
+            Text("Are you sure you want to quit?")
+        }, confirmButton = {
+            Button(
+                    onClick = {
+                        dialogShown.value = false
+                        exitProcess(0)
+                    },
+                    colors = ButtonDefaults.buttonColors(backgroundColor = Color.Black.copy(0.85f))
+            ) {
+                Text("Quit", color = Color.White)
+            }
+        }, dismissButton = {
+            Button(
+                    onClick = { dialogShown.value = false },
+                    colors = ButtonDefaults.buttonColors(backgroundColor = Color.Black.copy(0.85f))
+            ) {
+                Text(text = "Cancel", color = Color.White)
+            }
+        })
+    }
 
     Scaffold(
             floatingActionButton = {
