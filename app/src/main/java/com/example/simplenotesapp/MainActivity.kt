@@ -4,15 +4,16 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.semantics.Role.Companion.Image
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavType
@@ -20,14 +21,16 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import androidx.navigation.navDeepLink
 import androidx.room.Room
 import com.example.simplenotesapp.data.NoteDatabase
 import com.example.simplenotesapp.ui.AddNoteDetailScreen
 import com.example.simplenotesapp.ui.NoteScreen
 import com.example.simplenotesapp.ui.NoteViewModel
+import com.example.simplenotesapp.ui.SplashScreen
 import com.example.simplenotesapp.ui.theme.SimpleNotesAppTheme
 import com.example.simplenotesapp.util.Routes
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 class MainActivity : ComponentActivity() {
 
@@ -59,7 +62,7 @@ class MainActivity : ComponentActivity() {
                 val navController = rememberNavController()
 
                 NavHost(navController,
-                        startDestination = Routes.NOTE_SCREEN) {
+                        startDestination = Routes.SPLASH_SCREEN) {
                     composable(
                             Routes.NOTE_SCREEN
                     ) {
@@ -78,7 +81,6 @@ class MainActivity : ComponentActivity() {
                                 context = applicationContext
                         )
                     }
-
                     composable(
                             Routes.ADD_NOTE_DETAIL_SCREEN_ARGS,
                             arguments = listOf(navArgument("id") { type = NavType.IntType },
@@ -99,6 +101,7 @@ class MainActivity : ComponentActivity() {
                                 content = content
                         )
                     }
+                    composable(Routes.SPLASH_SCREEN) { SplashScreen(navController = navController)}
                 }
 
 
@@ -106,4 +109,6 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
+
+
 
