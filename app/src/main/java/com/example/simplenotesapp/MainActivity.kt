@@ -42,7 +42,7 @@ class MainActivity : ComponentActivity() {
         ).build()
     }
 
-    //Was showing error overrides nothing - Making viewModel non-nullable resolved issue
+
     private  val viewModel  by viewModels<NoteViewModel>(
             factoryProducer = {
                 object: ViewModelProvider.Factory {

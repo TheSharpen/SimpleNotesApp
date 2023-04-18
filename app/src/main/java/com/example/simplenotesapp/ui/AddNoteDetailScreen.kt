@@ -58,7 +58,7 @@ fun AddNoteDetailScreen(
 
     BackHandler() {
 
-        if (state.title.isNotEmpty() || state.content.isNotEmpty()) {
+        if (id == 0 && state.title.isNotEmpty() || state.content.isNotEmpty()) {
             dialogShown.value = true
         } else {
             navController.popBackStack()
@@ -202,7 +202,7 @@ fun AddNoteDetailScreen(
                         TextField(
                                 textStyle = TextStyle(
                                         fontSize = 28.sp,
-                                        color = colorResource(id = R.color.yellowLight),
+                                        color = colorResource(id = R.color.yellowIntense),
                                         fontWeight = FontWeight.Bold,
                                         textAlign = TextAlign.Start,
                                         textDecoration = TextDecoration.None
@@ -216,7 +216,7 @@ fun AddNoteDetailScreen(
                                     Text(
                                             style = TextStyle(
                                                     fontSize = 24.sp,
-                                                    color = colorResource(id = R.color.yellowLight),
+                                                    color = colorResource(id = R.color.lightGray),
                                                     fontWeight = FontWeight.Bold,
                                                     textAlign = TextAlign.Start,
                                                     textDecoration = TextDecoration.None
@@ -260,7 +260,7 @@ fun AddNoteDetailScreen(
                                                     text = "Contents of your note",
                                                     style = TextStyle(
                                                             fontSize = 16.sp,
-                                                            color = colorResource(id = R.color.yellowLight)
+                                                            color = colorResource(id = R.color.lightGray)
                                                     )
                                             )
                                         },

@@ -1,6 +1,5 @@
 package com.example.simplenotesapp.ui
 
-import android.util.Log
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -12,7 +11,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -21,22 +20,17 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import com.example.simplenotesapp.util.Routes
-import android.app.Activity
-import androidx.compose.material.icons.filled.Clear
-import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.res.colorResource
-import androidx.compose.ui.res.vectorResource
-import androidx.compose.ui.text.style.TextAlign
 import com.example.simplenotesapp.R
+import com.example.simplenotesapp.util.Routes
 import kotlin.system.exitProcess
+
 
 @Composable
 fun NoteScreen(
@@ -50,6 +44,8 @@ fun NoteScreen(
     val isSearching = viewModel.isSearching.collectAsState()
 
     val dialogShown = remember { mutableStateOf(false) }
+
+
 
 
     BackHandler() {
@@ -155,6 +151,13 @@ fun NoteScreen(
 
                         }
                     },
+                    colors = TextFieldDefaults.textFieldColors(
+                            cursorColor = Color.DarkGray,
+                            focusedIndicatorColor = Color.Transparent,
+                            unfocusedIndicatorColor = Color.Transparent,
+
+
+                    ),
                     textStyle = MaterialTheme.typography.h6.copy(
                             color = Color.Black, fontWeight = FontWeight.Bold
                     ),
