@@ -4,16 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.semantics.Role.Companion.Image
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavType
@@ -25,12 +16,10 @@ import androidx.room.Room
 import com.example.simplenotesapp.data.NoteDatabase
 import com.example.simplenotesapp.ui.AddNoteDetailScreen
 import com.example.simplenotesapp.ui.NoteScreen
-import com.example.simplenotesapp.ui.NoteViewModel
+import com.example.simplenotesapp.ui.main.NoteViewModel
 import com.example.simplenotesapp.ui.SplashScreen
 import com.example.simplenotesapp.ui.theme.SimpleNotesAppTheme
 import com.example.simplenotesapp.util.Routes
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 
 class MainActivity : ComponentActivity() {
 

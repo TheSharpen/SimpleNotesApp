@@ -1,12 +1,10 @@
-package com.example.simplenotesapp.ui
+package com.example.simplenotesapp.ui.main
 
-import android.util.Log
-import android.widget.Toast
-import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.ViewModel
-import com.example.simplenotesapp.data.NoteDao
 import androidx.lifecycle.viewModelScope
+import com.example.simplenotesapp.data.NoteDao
 import com.example.simplenotesapp.data.entity.Note
+import com.example.simplenotesapp.util.NoteState
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 

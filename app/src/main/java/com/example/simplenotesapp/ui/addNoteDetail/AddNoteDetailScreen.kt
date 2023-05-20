@@ -1,21 +1,15 @@
 package com.example.simplenotesapp.ui
 
 import android.content.Context
-import android.util.Log
-import android.widget.Toast
 import androidx.activity.compose.BackHandler
-import androidx.activity.compose.LocalOnBackPressedDispatcherOwner
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Delete
-import androidx.compose.material.icons.filled.List
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -24,7 +18,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.colorResource
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -35,8 +28,8 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.simplenotesapp.R
 import com.example.simplenotesapp.data.entity.Note
-import com.example.simplenotesapp.util.Routes
-import kotlin.system.exitProcess
+import com.example.simplenotesapp.ui.main.NoteEvent
+import com.example.simplenotesapp.util.NoteState
 
 
 @Composable

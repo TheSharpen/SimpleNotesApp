@@ -28,6 +28,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.simplenotesapp.R
+import com.example.simplenotesapp.ui.main.NoteEvent
+import com.example.simplenotesapp.ui.main.NoteViewModel
+import com.example.simplenotesapp.util.NoteState
 import com.example.simplenotesapp.util.Routes
 import kotlin.system.exitProcess
 
@@ -68,6 +71,15 @@ fun NoteScreen(
                     horizontalArrangement = Arrangement.SpaceAround,
                     verticalAlignment = Alignment.CenterVertically
             ) {
+
+                Button(
+                        onClick = { dialogShown.value = false },
+                        colors = ButtonDefaults.buttonColors(
+                                backgroundColor = Color.Black.copy(0.85f)
+                        )
+                ) {
+                    Text(text = "Cancel", color = Color.White)
+                }
                 Button(
                         onClick = {
                             dialogShown.value = false
@@ -78,14 +90,6 @@ fun NoteScreen(
                         )
                 ) {
                     Text("Quit", color = Color.White)
-                }
-                Button(
-                        onClick = { dialogShown.value = false },
-                        colors = ButtonDefaults.buttonColors(
-                                backgroundColor = Color.Black.copy(0.85f)
-                        )
-                ) {
-                    Text(text = "Cancel", color = Color.White)
                 }
             }
 

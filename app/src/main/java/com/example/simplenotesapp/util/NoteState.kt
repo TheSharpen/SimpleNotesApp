@@ -1,4 +1,4 @@
-package com.example.simplenotesapp.ui
+package com.example.simplenotesapp.util
 
 import com.example.simplenotesapp.data.entity.Note
 
