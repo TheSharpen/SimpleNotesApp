@@ -1,4 +1,4 @@
-package com.example.simplenotesapp.ui
+package com.example.simplenotesapp.ui.main
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
@@ -28,8 +28,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.simplenotesapp.R
-import com.example.simplenotesapp.ui.main.NoteEvent
-import com.example.simplenotesapp.ui.main.NoteViewModel
 import com.example.simplenotesapp.util.NoteState
 import com.example.simplenotesapp.util.Routes
 import kotlin.system.exitProcess
@@ -110,7 +108,7 @@ fun NoteScreen(
                 }
             },
 
-            backgroundColor = colorResource(id = R.color.yellowLight)
+            backgroundColor = MaterialTheme.colors.background
     ) { padding ->
 
         viewModel.update_searchNotes()
@@ -168,7 +166,7 @@ fun NoteScreen(
                     placeholder = {
                         Text(
                                 text = "Search",
-                                color = Color.Gray,
+                                color = MaterialTheme.colors.primaryVariant,
                                 fontSize = 20.sp,
                         )
                     },
@@ -200,7 +198,7 @@ fun NoteScreen(
                                                 "${Routes.ADD_NOTE_DETAIL_SCREEN}/${note.id}/${note.title}/${note.content}"
                                         )
                                     }),
-                                backgroundColor = Color.White,
+                                backgroundColor = MaterialTheme.colors.primary,
                         ) {
                             Column(
                                     modifier = Modifier.padding(16.dp)
@@ -209,11 +207,11 @@ fun NoteScreen(
                                         text = note.title,
                                         fontSize = 24.sp,
                                         fontWeight = FontWeight.Bold,
-                                        color = colorResource(id = R.color.yellowIntense)
+                                        color = MaterialTheme.colors.onPrimary
                                 )
                                 Spacer(modifier = Modifier.size(12.dp))
                                 Text(
-                                        text = note.content, fontSize = 16.sp, color = Color.Black
+                                        text = note.content, fontSize = 16.sp, color = MaterialTheme.colors.primaryVariant
                                 )
                             }
                         }

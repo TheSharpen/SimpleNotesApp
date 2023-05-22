@@ -1,4 +1,4 @@
-package com.example.simplenotesapp.ui
+package com.example.simplenotesapp.ui.addNoteDetail
 
 import android.content.Context
 import androidx.activity.compose.BackHandler

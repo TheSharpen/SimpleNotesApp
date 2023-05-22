@@ -4,7 +4,8 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
-import androidx.compose.runtime.*
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavType
@@ -14,11 +15,11 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import androidx.room.Room
 import com.example.simplenotesapp.data.NoteDatabase
-import com.example.simplenotesapp.ui.AddNoteDetailScreen
-import com.example.simplenotesapp.ui.NoteScreen
+import com.example.simplenotesapp.ui.addNoteDetail.AddNoteDetailScreen
+import com.example.simplenotesapp.ui.main.NoteScreen
 import com.example.simplenotesapp.ui.main.NoteViewModel
-import com.example.simplenotesapp.ui.SplashScreen
-import com.example.simplenotesapp.ui.theme.SimpleNotesAppTheme
+import com.example.simplenotesapp.ui.splash.SplashScreen
+import com.example.simplenotesapp.ui.theme.ComposeCustomThemingTheme
 import com.example.simplenotesapp.util.Routes
 
 class MainActivity : ComponentActivity() {
@@ -45,7 +46,7 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            SimpleNotesAppTheme {
+            ComposeCustomThemingTheme() {
 
                 val state by viewModel.state.collectAsState()
                 val navController = rememberNavController()
@@ -90,7 +91,7 @@ class MainActivity : ComponentActivity() {
                                 content = content
                         )
                     }
-                    composable(Routes.SPLASH_SCREEN) { SplashScreen(navController = navController)}
+                    composable(Routes.SPLASH_SCREEN) { SplashScreen(navController = navController) }
                 }
 
 
