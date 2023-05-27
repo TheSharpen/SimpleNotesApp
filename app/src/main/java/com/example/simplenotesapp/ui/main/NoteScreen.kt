@@ -22,13 +22,11 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalFocusManager
-import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import com.example.simplenotesapp.R
 import com.example.simplenotesapp.util.NoteState
 import com.example.simplenotesapp.util.Routes
 import kotlinx.coroutines.launch
@@ -77,20 +75,20 @@ fun NoteScreen(
                 Button(
                         onClick = { dialogShown.value = false },
                         colors = ButtonDefaults.buttonColors(
-                                backgroundColor = Color.Black.copy(0.85f)
+                                backgroundColor = MaterialTheme.colors.error
                         )
                 ) {
-                    Text(text = "Cancel", color = Color.White)
+                    Text(text = "Cancel", color = MaterialTheme.colors.onError)
                 }
                 Button(
                         onClick = {
                             dialogShown.value = false
                             exitProcess(0)
                         }, colors = ButtonDefaults.buttonColors(
-                        backgroundColor = Color.Black.copy(0.85f)
+                        backgroundColor = MaterialTheme.colors.error
                 )
                 ) {
-                    Text("Quit", color = Color.White)
+                    Text("Quit", color = MaterialTheme.colors.onError)
                 }
             }
 
@@ -100,13 +98,13 @@ fun NoteScreen(
 
     Scaffold(
             floatingActionButton = {
-                FloatingActionButton(backgroundColor = Color.Black.copy(0.85f), onClick = {
+                FloatingActionButton(backgroundColor = MaterialTheme.colors.onSecondary, onClick = {
                     navController.navigate(Routes.ADD_NOTE_DETAIL_SCREEN)
                 }) {
                     Icon(
                             imageVector = Icons.Default.Add,
                             contentDescription = "Add note",
-                            tint = Color.White
+                            tint = MaterialTheme.colors.secondaryVariant
                     )
                 }
             },
@@ -134,13 +132,13 @@ fun NoteScreen(
                     modifier = Modifier
                         .fillMaxWidth()
                         .clip(RoundedCornerShape(8.dp))
-                        .background(colorResource(id = R.color.yellowLight))
+                        .background(color = MaterialTheme.colors.surface)
                         .border(width = 0.dp, color = Color.Transparent),
                     leadingIcon = {
                         Icon(
                                 imageVector = Icons.Default.Search,
                                 contentDescription = "Search",
-                                tint = Color.Gray,
+                                tint = MaterialTheme.colors.onSurface,
                         )
                     },
                     trailingIcon = {
@@ -154,7 +152,7 @@ fun NoteScreen(
                                 Icon(
                                         imageVector = Icons.Default.Clear,
                                         contentDescription = "Clear query",
-                                        tint = Color.Gray
+                                        tint = MaterialTheme.colors.onSurface
                                 )
                             }
 
@@ -162,7 +160,7 @@ fun NoteScreen(
                         }
                     },
                     colors = TextFieldDefaults.textFieldColors(
-                            cursorColor = Color.DarkGray,
+                            cursorColor = MaterialTheme.colors.onSurface,
                             focusedIndicatorColor = Color.Transparent,
                             unfocusedIndicatorColor = Color.Transparent,
 
@@ -174,7 +172,7 @@ fun NoteScreen(
                     placeholder = {
                         Text(
                                 text = "Search",
-                                color = MaterialTheme.colors.primaryVariant,
+                                color = MaterialTheme.colors.onSurface,
                                 fontSize = 20.sp,
                         )
                     },
@@ -230,13 +228,13 @@ fun NoteScreen(
                                         text = note.title,
                                         fontSize = 24.sp,
                                         fontWeight = FontWeight.Bold,
-                                        color = MaterialTheme.colors.onPrimary
+                                        color = MaterialTheme.colors.primaryVariant
                                 )
                                 Spacer(modifier = Modifier.size(12.dp))
                                 Text(
                                         text = note.content,
                                         fontSize = 16.sp,
-                                        color = MaterialTheme.colors.primaryVariant
+                                        color = MaterialTheme.colors.onPrimary
                                 )
                             }
                         }

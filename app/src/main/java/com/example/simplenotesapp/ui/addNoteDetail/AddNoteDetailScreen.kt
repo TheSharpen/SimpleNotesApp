@@ -17,7 +17,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -83,10 +82,10 @@ fun AddNoteDetailScreen(
                 Button(
                         onClick = { dialogShown.value = false },
                         colors = ButtonDefaults.buttonColors(
-                                backgroundColor = Color.Black.copy(0.85f)
+                                backgroundColor = MaterialTheme.colors.error
                         )
                 ) {
-                    Text(text = "Cancel", color = Color.White)
+                    Text(text = "Cancel", color = MaterialTheme.colors.onError)
                 }
                 Button(
                         onClick = {
@@ -96,10 +95,10 @@ fun AddNoteDetailScreen(
                             onEvent(NoteEvent.ResetTitle(""))
                             onEvent(NoteEvent.ResetContent(""))
                         }, colors = ButtonDefaults.buttonColors(
-                        backgroundColor = Color.Black.copy(0.85f)
+                        backgroundColor = MaterialTheme.colors.error
                 )
                 ) {
-                    Text("Discard", color = Color.White)
+                    Text("Discard", color = MaterialTheme.colors.onError)
                 }
             }
 
@@ -127,10 +126,10 @@ fun AddNoteDetailScreen(
                 Button(
                         onClick = { deleteDialogShown.value = false },
                         colors = ButtonDefaults.buttonColors(
-                                backgroundColor = Color.Black.copy(0.85f)
+                                backgroundColor = MaterialTheme.colors.error
                         )
                 ) {
-                    Text(text = "Cancel", color = Color.White)
+                    Text(text = "Cancel", color = MaterialTheme.colors.onError)
                 }
                 Button(
                         onClick = {
@@ -144,10 +143,10 @@ fun AddNoteDetailScreen(
                             navController.popBackStack()
                             onEvent(NoteEvent.DeleteNote(note))
                         }, colors = ButtonDefaults.buttonColors(
-                        backgroundColor = Color.Black.copy(0.85f)
+                        backgroundColor = MaterialTheme.colors.error
                 )
                 ) {
-                    Text("Delete", color = Color.White)
+                    Text("Delete", color = MaterialTheme.colors.error)
                 }
             }
 
@@ -164,7 +163,7 @@ fun AddNoteDetailScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .background(
-                        colorResource(id = R.color.yellowLight)),
+                        color = MaterialTheme.colors.background),
             contentAlignment = Alignment.Center
     ) {
 
@@ -182,7 +181,7 @@ fun AddNoteDetailScreen(
                             .fillMaxWidth()
                             .weight(0.9f)
                             .padding(start = 24.dp, end = 24.dp, top = 24.dp),
-                        backgroundColor = Color.White,
+                        backgroundColor = MaterialTheme.colors.primary,
                 ) {
 
 
@@ -195,7 +194,7 @@ fun AddNoteDetailScreen(
                         TextField(
                                 textStyle = TextStyle(
                                         fontSize = 28.sp,
-                                        color = colorResource(id = R.color.yellowIntense),
+                                        color = MaterialTheme.colors.primaryVariant,
                                         fontWeight = FontWeight.Bold,
                                         textAlign = TextAlign.Start,
                                         textDecoration = TextDecoration.None
@@ -209,7 +208,7 @@ fun AddNoteDetailScreen(
                                     Text(
                                             style = TextStyle(
                                                     fontSize = 24.sp,
-                                                    color = colorResource(id = R.color.lightGray),
+                                                    color = MaterialTheme.colors.onBackground,
                                                     fontWeight = FontWeight.Bold,
                                                     textAlign = TextAlign.Start,
                                                     textDecoration = TextDecoration.None
@@ -220,7 +219,7 @@ fun AddNoteDetailScreen(
                                 },
                                 colors = TextFieldDefaults.textFieldColors(
                                         backgroundColor = Color.Transparent,
-                                        cursorColor = Color.Black,
+                                        cursorColor = MaterialTheme.colors.primaryVariant,
                                         focusedIndicatorColor = Color.Transparent,
                                         unfocusedIndicatorColor = Color.Transparent
 
@@ -242,7 +241,7 @@ fun AddNoteDetailScreen(
                                         },
                                         colors = TextFieldDefaults.textFieldColors(
                                                 backgroundColor = Color.Transparent,
-                                                cursorColor = Color.Black,
+                                                cursorColor = MaterialTheme.colors.onPrimary,
                                                 focusedIndicatorColor = Color.Transparent,
                                                 unfocusedIndicatorColor = Color.Transparent
 
@@ -253,7 +252,7 @@ fun AddNoteDetailScreen(
                                                     text = "Contents of your note",
                                                     style = TextStyle(
                                                             fontSize = 16.sp,
-                                                            color = colorResource(id = R.color.lightGray)
+                                                            color = MaterialTheme.colors.onBackground
                                                     )
                                             )
                                         },
@@ -311,7 +310,7 @@ fun AddNoteDetailScreen(
                             .fillMaxWidth()
                             .weight(0.9f)
                             .padding(start = 24.dp, end = 24.dp, top = 24.dp),
-                        backgroundColor = Color.White,
+                        backgroundColor = MaterialTheme.colors.onBackground,
                 ) {
 
 
@@ -327,13 +326,13 @@ fun AddNoteDetailScreen(
 
                                 textStyle = TextStyle(
                                         fontSize = 28.sp,
-                                        color = colorResource(id = R.color.yellowIntense),
+                                        color = MaterialTheme.colors.primaryVariant,
                                         fontWeight = FontWeight.Bold,
                                         textAlign = TextAlign.Center,
                                         textDecoration = TextDecoration.None
                                 ), colors = TextFieldDefaults.textFieldColors(
                                 backgroundColor = Color.Transparent,
-                                cursorColor = Color.Black,
+                                cursorColor = MaterialTheme.colors.primaryVariant,
                                 focusedIndicatorColor = Color.Transparent,
                                 unfocusedIndicatorColor = Color.Transparent
 
@@ -368,10 +367,10 @@ fun AddNoteDetailScreen(
                                             value = varContent.value, onValueChange = { it ->
                                         varContent.value = it
                                     }, textStyle = TextStyle(
-                                            fontSize = 16.sp, color = Color.Black
+                                            fontSize = 16.sp, color = MaterialTheme.colors.onPrimary
                                     ), colors = TextFieldDefaults.textFieldColors(
                                             backgroundColor = Color.Transparent,
-                                            cursorColor = Color.Black,
+                                            cursorColor = MaterialTheme.colors.onPrimary,
                                             focusedIndicatorColor = Color.Transparent,
                                             unfocusedIndicatorColor = Color.Transparent
 

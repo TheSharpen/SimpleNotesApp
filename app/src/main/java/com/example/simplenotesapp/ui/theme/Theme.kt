@@ -12,12 +12,17 @@ private val DarkColorPalette = darkColors(
         background = Gray700,
         primary = Yellow200,
         onPrimary = Gray300,
-        primaryVariant = Gray500,
+        primaryVariant = Gray700,
         secondary = Yellow200,
         secondaryVariant = DarkerYellow700 ,
         onSecondary = White,
         surface = WarmGray200.copy(alpha = 0.3f),
-        onSurface = Gray500
+        onSurface = Gray500,
+        error = Black,
+        onError = White,
+
+        onBackground = Gray100
+
 )
 
 @SuppressLint("ConflictingOnColor")
@@ -30,8 +35,14 @@ private val LightColorPalette = lightColors(
         secondaryVariant = DarkerYellow700 ,
         onSecondary = Gray500.copy(alpha = 0.8f),
         surface = LightGray200.copy(alpha = 0.85f),
-        onSurface = Gray500
+        onSurface = Gray500,
+        error = White,
+        onError = Black,
+
+        onBackground = Gray100
 )
+
+
 
 @Composable
 fun ComposeCustomThemingTheme(
