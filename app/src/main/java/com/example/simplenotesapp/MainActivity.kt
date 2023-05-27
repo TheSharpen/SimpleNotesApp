@@ -45,6 +45,20 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+//            WindowCompat.setDecorFitsSystemWindows(window, false)
+//            window.insetsController?.let { controller ->
+//                controller.hide(android.view.WindowInsets.Type.statusBars())
+//                controller.systemBarsBehavior =
+//                    android.view.WindowInsetsController.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
+//            }
+//        } else {
+//            window.decorView.systemUiVisibility =
+//                View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+//        }
+
         setContent {
             ComposeCustomThemingTheme() {
 

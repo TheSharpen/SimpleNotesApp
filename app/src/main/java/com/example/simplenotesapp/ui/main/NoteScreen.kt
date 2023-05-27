@@ -4,23 +4,24 @@ import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.Search
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -30,9 +31,11 @@ import androidx.navigation.NavController
 import com.example.simplenotesapp.R
 import com.example.simplenotesapp.util.NoteState
 import com.example.simplenotesapp.util.Routes
+import kotlinx.coroutines.launch
 import kotlin.system.exitProcess
 
 
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun NoteScreen(
     state: NoteState,
@@ -46,6 +49,7 @@ fun NoteScreen(
 
     val dialogShown = remember { mutableStateOf(false) }
 
+    val focusManager = LocalFocusManager.current
 
 
 
@@ -82,10 +86,9 @@ fun NoteScreen(
                         onClick = {
                             dialogShown.value = false
                             exitProcess(0)
-                        },
-                        colors = ButtonDefaults.buttonColors(
-                                backgroundColor = Color.Black.copy(0.85f)
-                        )
+                        }, colors = ButtonDefaults.buttonColors(
+                        backgroundColor = Color.Black.copy(0.85f)
+                )
                 ) {
                     Text("Quit", color = Color.White)
                 }
@@ -113,10 +116,16 @@ fun NoteScreen(
 
         viewModel.update_searchNotes()
 
-        Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(16.dp)
+        Column(modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp)
+            .pointerInput(Unit) {
+                detectTapGestures(onPress = { focusManager.clearFocus() })
+                detectDragGestures(onDrag = { _, _ ->
+                    focusManager.clearFocus()
+                })
+            }
+
         ) {
 
             TextField(
@@ -150,7 +159,6 @@ fun NoteScreen(
                             }
 
 
-
                         }
                     },
                     colors = TextFieldDefaults.textFieldColors(
@@ -159,7 +167,7 @@ fun NoteScreen(
                             unfocusedIndicatorColor = Color.Transparent,
 
 
-                    ),
+                            ),
                     textStyle = MaterialTheme.typography.h6.copy(
                             color = Color.Black, fontWeight = FontWeight.Bold
                     ),
@@ -181,10 +189,14 @@ fun NoteScreen(
                     )
                 }
             } else {
+                val scrollState = rememberScrollState()
+                val coroutineScope = rememberCoroutineScope()
+
                 LazyColumn(
                         modifier = Modifier
                             .fillMaxWidth()
                             .weight(1f)
+                            .scrollable(scrollState, Orientation.Vertical)
                 ) {
                     items(searchNotes.value) { note ->
                         Card(
@@ -193,6 +205,17 @@ fun NoteScreen(
                                 modifier = Modifier
                                     .fillMaxWidth()
                                     .padding(horizontal = 16.dp, vertical = 8.dp)
+                                    .pointerInput(Unit) {
+                                        detectTapGestures(onPress = { focusManager.clearFocus() })
+                                        detectDragGestures(onDrag = { change, dragAmount ->
+                                            coroutineScope.launch {
+                                                scrollState.scrollBy(dragAmount.y)
+                                            }
+                                            focusManager.clearFocus()
+                                            change.consume()
+                                        })
+
+                                    }
                                     .clickable(onClick = {
                                         navController.navigate(
                                                 "${Routes.ADD_NOTE_DETAIL_SCREEN}/${note.id}/${note.title}/${note.content}"
@@ -211,7 +234,9 @@ fun NoteScreen(
                                 )
                                 Spacer(modifier = Modifier.size(12.dp))
                                 Text(
-                                        text = note.content, fontSize = 16.sp, color = MaterialTheme.colors.primaryVariant
+                                        text = note.content,
+                                        fontSize = 16.sp,
+                                        color = MaterialTheme.colors.primaryVariant
                                 )
                             }
                         }
