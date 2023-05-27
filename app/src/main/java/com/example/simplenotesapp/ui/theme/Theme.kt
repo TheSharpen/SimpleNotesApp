@@ -6,44 +6,31 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.darkColors
 import androidx.compose.material.lightColors
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.graphics.Color
 
 @SuppressLint("ConflictingOnColor")
 private val DarkColorPalette = darkColors(
-        primary = Yellow700,
-        onPrimary = Color.Black,
-        primaryVariant = Gray700,
-        background = DarkGray700,
-
-        secondary = Teal200,
-//        secondaryVariant = Color.Gray,
-//        onSecondary = Color.Gray,
-//        surface = Color.Gray,
-//        error = Color.Gray,
-//        onBackground = Color.Gray,
-//        onSurface = Color.Gray,
-//        onError = Color.Gray
-
+        background = Gray700,
+        primary = Yellow200,
+        onPrimary = Gray300,
+        primaryVariant = Gray500,
+        secondary = Yellow200,
+        secondaryVariant = DarkerYellow700 ,
+        onSecondary = White,
+        surface = WarmGray200.copy(alpha = 0.3f),
+        onSurface = Gray500
 )
 
 @SuppressLint("ConflictingOnColor")
 private val LightColorPalette = lightColors(
-        primary = Color.White,
-        onPrimary = Color.Black,
-        primaryVariant = Gray700,
-        background = LightGray200,
-
-        secondary = Teal200,
-
-
-//        secondaryVariant = Color.Gray,
-//        onSecondary = Color.Gray,
-//        surface = Color.Gray,
-//        error = Color.Gray,
-//        onBackground = Color.Gray,
-//        onSurface = Color.Gray,
-//        onError = Color.Gray
-
+        background = WarmGray200,
+        primary = LightGray200,
+        onPrimary = Gray300,
+        primaryVariant = DarkerYellow700,
+        secondary = Gray300,
+        secondaryVariant = DarkerYellow700 ,
+        onSecondary = Gray500.copy(alpha = 0.8f),
+        surface = LightGray200.copy(alpha = 0.85f),
+        onSurface = Gray500
 )
 
 @Composable
