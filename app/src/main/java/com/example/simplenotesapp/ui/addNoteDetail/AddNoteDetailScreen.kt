@@ -103,7 +103,8 @@ fun AddNoteDetailScreen(
             }
 
 
-        })
+        },
+        backgroundColor = MaterialTheme.colors.primary)
     }
 
     if (deleteDialogShown.value) {
@@ -146,12 +147,13 @@ fun AddNoteDetailScreen(
                         backgroundColor = MaterialTheme.colors.error
                 )
                 ) {
-                    Text("Delete", color = MaterialTheme.colors.error)
+                    Text("Delete", color = MaterialTheme.colors.onError)
                 }
             }
 
 
-        })
+        },
+        backgroundColor = MaterialTheme.colors.primary)
     }
 
 
@@ -167,7 +169,7 @@ fun AddNoteDetailScreen(
             contentAlignment = Alignment.Center
     ) {
 
-
+        //New Note
         if (id == null || id == 0) {
 
             Column(
@@ -175,13 +177,13 @@ fun AddNoteDetailScreen(
             ) {
 
                 Card(
-                        shape = RoundedCornerShape(8),
-                        elevation = 8.dp,
+                        shape = RoundedCornerShape(bottomStart = 25.dp, bottomEnd = 25.dp),
                         modifier = Modifier
                             .fillMaxWidth()
                             .weight(0.9f)
-                            .padding(start = 24.dp, end = 24.dp, top = 24.dp),
+                            .padding(bottom = 5.dp),
                         backgroundColor = MaterialTheme.colors.primary,
+                        elevation = 5.dp
                 ) {
 
 
@@ -270,7 +272,8 @@ fun AddNoteDetailScreen(
                 Box(
                         modifier = Modifier
                             .fillMaxSize()
-                            .weight(0.1f),
+                            .weight(0.1f)
+                            ,
                         contentAlignment = Alignment.Center
                 ) {
 
@@ -284,12 +287,15 @@ fun AddNoteDetailScreen(
                         Icon(
                                 imageVector = ImageVector.vectorResource(id = R.drawable.ic_save),
                                 contentDescription = "Icon Save",
-                                modifier = Modifier.size(48.dp)
+                                modifier = Modifier.size(48.dp),
+                                tint = MaterialTheme.colors.secondary
                         )
                     }
                 }
             }
-        } else {
+        } else
+        //Existing Note
+        {
 
             var varTitle = remember {
                 mutableStateOf(title!!)
@@ -299,18 +305,19 @@ fun AddNoteDetailScreen(
             }
 
             Column(
-                    verticalArrangement = Arrangement.Top, modifier = Modifier.fillMaxSize()
+                    verticalArrangement = Arrangement.Top, modifier = Modifier.fillMaxSize().background(MaterialTheme.colors.background)
             ) {
 
 
                 Card(
-                        shape = RoundedCornerShape(8),
-                        elevation = 8.dp,
+                        shape = RoundedCornerShape(bottomStart = 25.dp, bottomEnd = 25.dp),
+                        elevation = 5.dp,
                         modifier = Modifier
                             .fillMaxWidth()
                             .weight(0.9f)
-                            .padding(start = 24.dp, end = 24.dp, top = 24.dp),
-                        backgroundColor = MaterialTheme.colors.onBackground,
+                            .padding(bottom = 5.dp)
+                        ,
+                        backgroundColor = MaterialTheme.colors.primary,
                 ) {
 
 
@@ -361,6 +368,7 @@ fun AddNoteDetailScreen(
 
                                         .fillMaxWidth()
                                         .wrapContentHeight()
+                                        .background(MaterialTheme.colors.primary)
                             ) {
                                 item {
                                     TextField(
@@ -395,6 +403,7 @@ fun AddNoteDetailScreen(
                 Row(
                         modifier = Modifier
                             .fillMaxSize()
+                            .background(color = Color.Transparent)
                             .weight(0.1f),
                         horizontalArrangement = Arrangement.SpaceAround
                 ) {
@@ -414,7 +423,8 @@ fun AddNoteDetailScreen(
                             Icon(
                                     imageVector = Icons.Default.Delete,
                                     contentDescription = "Delete note",
-                                    modifier = Modifier.size(48.dp)
+                                    modifier = Modifier.size(48.dp),
+                                    tint = MaterialTheme.colors.secondary
                             )
                         }
                     }
@@ -438,7 +448,8 @@ fun AddNoteDetailScreen(
                             Icon(
                                     imageVector = ImageVector.vectorResource(id = R.drawable.ic_save),
                                     contentDescription = "Icon Save",
-                                    modifier = Modifier.size(48.dp)
+                                    modifier = Modifier.size(48.dp),
+                                    tint = MaterialTheme.colors.secondary
                             )
                         }
                     }

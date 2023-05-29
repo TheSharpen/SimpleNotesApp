@@ -34,7 +34,7 @@ private val LightColorPalette = lightColors(
         secondary = Gray300,
         secondaryVariant = DarkerYellow700 ,
         onSecondary = Gray500.copy(alpha = 0.8f),
-        surface = LightGray200.copy(alpha = 0.85f),
+        surface = LightGray200.copy(alpha = 0.98f),
         onSurface = Gray500,
         error = White,
         onError = Black,

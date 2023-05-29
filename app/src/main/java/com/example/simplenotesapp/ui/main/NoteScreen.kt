@@ -1,14 +1,13 @@
 package com.example.simplenotesapp.ui.main
 
 import androidx.activity.compose.BackHandler
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
+import androidx.compose.animation.*
+import androidx.compose.animation.core.tween
+import androidx.compose.foundation.*
 import androidx.compose.foundation.gestures.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -49,6 +48,19 @@ fun NoteScreen(
 
     val focusManager = LocalFocusManager.current
 
+    val enterTransition = remember {
+        slideInVertically(
+                initialOffsetY = { fullHeight -> fullHeight },
+                animationSpec = tween(durationMillis = 300)
+        )
+    }
+    val exitTransition = remember {
+        slideOutVertically(
+                targetOffsetY = { fullHeight -> -fullHeight },
+                animationSpec = tween(durationMillis = 300)
+        )
+    }
+
 
 
     BackHandler() {
@@ -57,6 +69,7 @@ fun NoteScreen(
 
     if (dialogShown.value) {
         AlertDialog(onDismissRequest = { dialogShown.value = false }, title = {
+
             Text(
                     "Are you sure you want to quit?",
                     textAlign = TextAlign.Center,
@@ -93,18 +106,21 @@ fun NoteScreen(
             }
 
 
-        })
+
+        }, backgroundColor = MaterialTheme.colors.primary
+        )
     }
 
     Scaffold(
             floatingActionButton = {
-                FloatingActionButton(backgroundColor = MaterialTheme.colors.onSecondary, onClick = {
+                FloatingActionButton(backgroundColor = MaterialTheme.colors.onSecondary.copy(alpha = 0.93f), onClick = {
                     navController.navigate(Routes.ADD_NOTE_DETAIL_SCREEN)
                 }) {
                     Icon(
                             imageVector = Icons.Default.Add,
                             contentDescription = "Add note",
-                            tint = MaterialTheme.colors.secondaryVariant
+                            tint = MaterialTheme.colors.secondaryVariant,
+                            modifier = Modifier.size(40.dp)
                     )
                 }
             },
@@ -138,7 +154,7 @@ fun NoteScreen(
                         Icon(
                                 imageVector = Icons.Default.Search,
                                 contentDescription = "Search",
-                                tint = MaterialTheme.colors.onSurface,
+                                tint = MaterialTheme.colors.onError.copy(alpha = 0.7f),
                         )
                     },
                     trailingIcon = {
@@ -152,7 +168,7 @@ fun NoteScreen(
                                 Icon(
                                         imageVector = Icons.Default.Clear,
                                         contentDescription = "Clear query",
-                                        tint = MaterialTheme.colors.onSurface
+                                        tint = MaterialTheme.colors.onError.copy(alpha = 0.7f)
                                 )
                             }
 
@@ -160,19 +176,19 @@ fun NoteScreen(
                         }
                     },
                     colors = TextFieldDefaults.textFieldColors(
-                            cursorColor = MaterialTheme.colors.onSurface,
+                            cursorColor = MaterialTheme.colors.onError.copy(alpha = 0.7f),
                             focusedIndicatorColor = Color.Transparent,
                             unfocusedIndicatorColor = Color.Transparent,
 
 
                             ),
                     textStyle = MaterialTheme.typography.h6.copy(
-                            color = Color.Black, fontWeight = FontWeight.Bold
+                            color = MaterialTheme.colors.onError.copy(alpha = 0.7f), fontWeight = FontWeight.Bold
                     ),
                     placeholder = {
                         Text(
                                 text = "Search",
-                                color = MaterialTheme.colors.onSurface,
+                                color = MaterialTheme.colors.onError.copy(alpha = 0.7f),
                                 fontSize = 20.sp,
                         )
                     },
@@ -196,7 +212,8 @@ fun NoteScreen(
                             .weight(1f)
                             .scrollable(scrollState, Orientation.Vertical)
                 ) {
-                    items(searchNotes.value) { note ->
+                    items(searchNotes.value) {
+                        note ->
                         Card(
                                 shape = RoundedCornerShape(8.dp),
                                 elevation = 8.dp,
