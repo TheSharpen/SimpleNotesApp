@@ -12,6 +12,12 @@ SimpleNotesApp is a note-taking application built with Android Jetpack libraries
 - Light and Dark Theme: Users can switch between light and dark themes to customize their app's appearance.
 - Navigation Library: The Navigation Library is used for handling app navigation and managing different screens.
 
+## Screenshots
+
+![Image Description](https://i.imgur.com/NfNaBbt.png)
+
+
+
 ## Installation
 
 To install and run the SimpleNotesApp on your Android device, please follow the steps below:
