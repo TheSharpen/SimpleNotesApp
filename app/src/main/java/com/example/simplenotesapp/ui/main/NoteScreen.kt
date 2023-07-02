@@ -1,13 +1,14 @@
 package com.example.simplenotesapp.ui.main
 
 import androidx.activity.compose.BackHandler
-import androidx.compose.animation.*
-import androidx.compose.animation.core.tween
-import androidx.compose.foundation.*
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -20,6 +21,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -32,7 +34,6 @@ import kotlinx.coroutines.launch
 import kotlin.system.exitProcess
 
 
-@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun NoteScreen(
     state: NoteState,
@@ -48,19 +49,8 @@ fun NoteScreen(
 
     val focusManager = LocalFocusManager.current
 
-    val enterTransition = remember {
-        slideInVertically(
-                initialOffsetY = { fullHeight -> fullHeight },
-                animationSpec = tween(durationMillis = 300)
-        )
-    }
-    val exitTransition = remember {
-        slideOutVertically(
-                targetOffsetY = { fullHeight -> -fullHeight },
-                animationSpec = tween(durationMillis = 300)
-        )
-    }
-
+    var visible by remember { mutableStateOf(true) }
+    val density = LocalDensity.current
 
 
     BackHandler() {
@@ -113,6 +103,9 @@ fun NoteScreen(
 
     Scaffold(
             floatingActionButton = {
+                Row() {
+
+                }
                 FloatingActionButton(backgroundColor = MaterialTheme.colors.onSecondary.copy(alpha = 0.93f), onClick = {
                     navController.navigate(Routes.ADD_NOTE_DETAIL_SCREEN)
                 }) {
@@ -128,7 +121,7 @@ fun NoteScreen(
             backgroundColor = MaterialTheme.colors.background
     ) { padding ->
 
-        viewModel.update_searchNotes()
+        viewModel.updateSearchNotes()
 
         Column(modifier = Modifier
             .fillMaxSize()
@@ -212,47 +205,48 @@ fun NoteScreen(
                             .weight(1f)
                             .scrollable(scrollState, Orientation.Vertical)
                 ) {
-                    items(searchNotes.value) {
-                        note ->
-                        Card(
-                                shape = RoundedCornerShape(8.dp),
-                                elevation = 8.dp,
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(horizontal = 16.dp, vertical = 8.dp)
-                                    .pointerInput(Unit) {
-                                        detectTapGestures(onPress = { focusManager.clearFocus() })
-                                        detectDragGestures(onDrag = { change, dragAmount ->
-                                            coroutineScope.launch {
-                                                scrollState.scrollBy(dragAmount.y)
-                                            }
-                                            focusManager.clearFocus()
-                                            change.consume()
-                                        })
+                    items(searchNotes.value, key = { note -> note.id }) { note ->
 
-                                    }
-                                    .clickable(onClick = {
-                                        navController.navigate(
-                                                "${Routes.ADD_NOTE_DETAIL_SCREEN}/${note.id}/${note.title}/${note.content}"
-                                        )
-                                    }),
-                                backgroundColor = MaterialTheme.colors.primary,
-                        ) {
-                            Column(
-                                    modifier = Modifier.padding(16.dp)
+                            Card(
+                                    shape = RoundedCornerShape(8.dp),
+                                    elevation = 8.dp,
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .padding(horizontal = 16.dp, vertical = 8.dp)
+                                        .pointerInput(Unit) {
+                                            detectTapGestures(onPress = { focusManager.clearFocus() })
+                                            detectDragGestures(onDrag = { change, dragAmount ->
+                                                coroutineScope.launch {
+                                                    scrollState.scrollBy(dragAmount.y)
+                                                }
+                                                focusManager.clearFocus()
+                                                change.consume()
+                                            })
+
+                                        }
+                                        .clickable(onClick = {
+                                            navController.navigate(
+                                                    "${Routes.ADD_NOTE_DETAIL_SCREEN}/${note.id}/${note.title}/${note.content}"
+                                            )
+                                        }),
+                                    backgroundColor = MaterialTheme.colors.primary,
                             ) {
-                                Text(
-                                        text = note.title,
-                                        fontSize = 24.sp,
-                                        fontWeight = FontWeight.Bold,
-                                        color = MaterialTheme.colors.primaryVariant
-                                )
-                                Spacer(modifier = Modifier.size(12.dp))
-                                Text(
-                                        text = note.content,
-                                        fontSize = 16.sp,
-                                        color = MaterialTheme.colors.onPrimary
-                                )
+                                Column(
+                                        modifier = Modifier.padding(16.dp)
+                                ) {
+                                    Text(
+                                            text = note.title,
+                                            fontSize = 24.sp,
+                                            fontWeight = FontWeight.Bold,
+                                            color = MaterialTheme.colors.primaryVariant
+                                    )
+                                    Spacer(modifier = Modifier.size(12.dp))
+                                    Text(
+                                            text = note.content,
+                                            fontSize = 16.sp,
+                                            color = MaterialTheme.colors.onPrimary
+                                    )
+                                }
                             }
                         }
                     }
@@ -260,4 +254,4 @@ fun NoteScreen(
             }
         }
     }
-}
+

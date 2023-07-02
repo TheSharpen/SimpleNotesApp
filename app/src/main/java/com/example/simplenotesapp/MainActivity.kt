@@ -23,8 +23,7 @@ import androidx.navigation.navArgument
 import androidx.room.Room
 import com.example.simplenotesapp.data.NoteDatabase
 import com.example.simplenotesapp.ui.addNoteDetail.AddNoteDetailScreen
-import com.example.simplenotesapp.ui.main.NoteScreen
-import com.example.simplenotesapp.ui.main.NoteViewModel
+import com.example.simplenotesapp.ui.main.*
 import com.example.simplenotesapp.ui.splash.SplashScreen
 import com.example.simplenotesapp.ui.theme.ComposeCustomThemingTheme
 import com.example.simplenotesapp.util.Routes
@@ -51,19 +50,33 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         setContent {
-
             ComposeCustomThemingTheme() {
                 TransparentStatusBar()
 
                 val state by viewModel.state.collectAsState()
                 val navController = rememberNavController()
+                val context = LocalContext.current
+
+                val shouldShowOnboarding = shouldShowOnboarding(this)
 
                 NavHost(
-                        navController, startDestination = Routes.SPLASH_SCREEN
+                        navController,
+                        startDestination = Routes.SPLASH_SCREEN
                 ) {
-                    composable(
-                            Routes.NOTE_SCREEN
-                    ) {
+                    composable(Routes.SPLASH_SCREEN) {
+                        SplashScreen(navController = navController)
+                    }
+                    composable(Routes.ONBOARDING_SCREEN) {
+                        OnboardingScreen(onDismiss = {
+                            setOnboardingShown(context)
+                            navController.navigate(Routes.NOTE_SCREEN) {
+                                popUpTo(Routes.ONBOARDING_SCREEN) {
+                                    inclusive = true
+                                }
+                            }
+                        })
+                    }
+                    composable(Routes.NOTE_SCREEN) {
                         NoteScreen(
                                 state = state,
                                 onEvent = viewModel::onEvent,
@@ -81,9 +94,11 @@ class MainActivity : ComponentActivity() {
                     }
                     composable(
                             Routes.ADD_NOTE_DETAIL_SCREEN_ARGS,
-                            arguments = listOf(navArgument("id") { type = NavType.IntType },
+                            arguments = listOf(
+                                    navArgument("id") { type = NavType.IntType },
                                     navArgument("title") { type = NavType.StringType },
-                                    navArgument("content") { type = NavType.StringType })
+                                    navArgument("content") { type = NavType.StringType }
+                            )
                     ) { backStackEntry ->
                         val id = backStackEntry.arguments?.getInt("id") ?: 0
                         val title = backStackEntry.arguments?.getString("title") ?: ""
@@ -99,9 +114,7 @@ class MainActivity : ComponentActivity() {
                                 content = content
                         )
                     }
-                    composable(Routes.SPLASH_SCREEN) { SplashScreen(navController = navController) }
                 }
-
 
             }
         }

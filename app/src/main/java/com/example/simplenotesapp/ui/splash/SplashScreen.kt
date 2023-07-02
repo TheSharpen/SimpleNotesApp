@@ -11,10 +11,12 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.simplenotesapp.R
+import com.example.simplenotesapp.ui.main.shouldShowOnboarding
 import com.example.simplenotesapp.util.Routes
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -25,10 +27,17 @@ fun SplashScreen(
 ) {
 
     val coroutineScope = rememberCoroutineScope()
+    val context = LocalContext.current
+
     LaunchedEffect(Unit) {
+        val shouldShowOnboarding = shouldShowOnboarding(context)
         coroutineScope.launch {
-            delay(1500)
-            navController.navigate(Routes.NOTE_SCREEN)
+            delay(2500)
+            if (shouldShowOnboarding) {
+                navController.navigate(Routes.ONBOARDING_SCREEN)
+            } else {
+                navController.navigate(Routes.NOTE_SCREEN)
+            }
         }
     }
 

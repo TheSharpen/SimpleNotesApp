@@ -30,7 +30,7 @@ class NoteViewModel(
     private val _isSearching = MutableStateFlow(false)
     val isSearching = _isSearching.asStateFlow()
 
-    fun update_searchNotes() {
+    fun updateSearchNotes() {
         _searchNotes.value = state.value.notes
     }
 
