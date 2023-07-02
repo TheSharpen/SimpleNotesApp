@@ -103,8 +103,7 @@ fun AddNoteDetailScreen(
             }
 
 
-        },
-        backgroundColor = MaterialTheme.colors.primary)
+        }, backgroundColor = MaterialTheme.colors.primary)
     }
 
     if (deleteDialogShown.value) {
@@ -152,8 +151,7 @@ fun AddNoteDetailScreen(
             }
 
 
-        },
-        backgroundColor = MaterialTheme.colors.primary)
+        }, backgroundColor = MaterialTheme.colors.primary)
     }
 
 
@@ -165,8 +163,8 @@ fun AddNoteDetailScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .background(
-                        color = MaterialTheme.colors.background),
-            contentAlignment = Alignment.Center
+                        color = MaterialTheme.colors.background
+                ), contentAlignment = Alignment.Center
     ) {
 
         //New Note
@@ -254,6 +252,8 @@ fun AddNoteDetailScreen(
                                                     text = "Contents of your note",
                                                     style = TextStyle(
                                                             fontSize = 16.sp,
+                                                            textAlign = TextAlign.Start,
+
                                                             color = MaterialTheme.colors.onBackground
                                                     )
                                             )
@@ -272,8 +272,7 @@ fun AddNoteDetailScreen(
                 Box(
                         modifier = Modifier
                             .fillMaxSize()
-                            .weight(0.1f)
-                            ,
+                            .weight(0.1f),
                         contentAlignment = Alignment.Center
                 ) {
 
@@ -305,7 +304,10 @@ fun AddNoteDetailScreen(
             }
 
             Column(
-                    verticalArrangement = Arrangement.Top, modifier = Modifier.fillMaxSize().background(MaterialTheme.colors.background)
+                    verticalArrangement = Arrangement.Top,
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .background(MaterialTheme.colors.background)
             ) {
 
 
@@ -315,8 +317,7 @@ fun AddNoteDetailScreen(
                         modifier = Modifier
                             .fillMaxWidth()
                             .weight(0.9f)
-                            .padding(bottom = 5.dp)
-                        ,
+                            .padding(bottom = 5.dp),
                         backgroundColor = MaterialTheme.colors.primary,
                 ) {
 
@@ -372,23 +373,30 @@ fun AddNoteDetailScreen(
                             ) {
                                 item {
                                     TextField(
-                                            value = varContent.value, onValueChange = { it ->
-                                        varContent.value = it
-                                    }, textStyle = TextStyle(
-                                            fontSize = 16.sp, color = MaterialTheme.colors.onPrimary
-                                    ), colors = TextFieldDefaults.textFieldColors(
-                                            backgroundColor = Color.Transparent,
-                                            cursorColor = MaterialTheme.colors.onPrimary,
-                                            focusedIndicatorColor = Color.Transparent,
-                                            unfocusedIndicatorColor = Color.Transparent
+                                            value = varContent.value,
+                                            onValueChange = { it ->
+                                                varContent.value = it
+                                            },
+                                            textStyle = TextStyle(
+                                                    fontSize = 16.sp,
+                                                    color = MaterialTheme.colors.onPrimary,
+                                                    textAlign = TextAlign.Start
+                                            ),
 
-                                    ), modifier = Modifier
-                                        .fillMaxSize()
-                                        .border(
-                                                width = 0.dp,
-                                                color = Color.Transparent,
-                                                shape = RoundedCornerShape(8.dp)
-                                        )
+                                            colors = TextFieldDefaults.textFieldColors(
+                                                    backgroundColor = Color.Transparent,
+                                                    cursorColor = MaterialTheme.colors.onPrimary,
+                                                    focusedIndicatorColor = Color.Transparent,
+                                                    unfocusedIndicatorColor = Color.Transparent
+
+                                            ),
+                                            modifier = Modifier
+                                                .fillMaxSize()
+                                                .border(
+                                                        width = 0.dp,
+                                                        color = Color.Transparent,
+                                                        shape = RoundedCornerShape(8.dp)
+                                                )
 
                                     )
                                 }
@@ -404,8 +412,7 @@ fun AddNoteDetailScreen(
                         modifier = Modifier
                             .fillMaxSize()
                             .background(color = Color.Transparent)
-                            .weight(0.1f),
-                        horizontalArrangement = Arrangement.SpaceAround
+                            .weight(0.1f), horizontalArrangement = Arrangement.SpaceAround
                 ) {
 
 

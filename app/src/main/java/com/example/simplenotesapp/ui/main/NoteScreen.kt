@@ -244,7 +244,8 @@ fun NoteScreen(
                                     Text(
                                             text = note.content,
                                             fontSize = 16.sp,
-                                            color = MaterialTheme.colors.onPrimary
+                                            color = MaterialTheme.colors.onPrimary,
+                                            textAlign = TextAlign.Start
                                     )
                                 }
                             }
